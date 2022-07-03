@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind utilities;
+
+@layer utilities {
+
+  .word-break-word {
+    word-break: break-word;
+  }
+
+  .word-break-normal {
+    word-break: normal;
+  }
+
+}
+
+.article-content > h1:not(.not-content) {
+  @apply font-sans text-32 font-semibold leading-115 tracking-title mb-4 sm:text-44 xl:text-48;
+}
+
+.article-content > h2:not(.not-content) {
+  @apply font-sans text-24 font-medium leading-115 tracking-title mb-8 mt-10 sm:text-32 sm:font-semibold xl:text-36 xl:leading-125;
+}
+
+.article-content > h2:not(.not-content)::after {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 0.25rem;
+  border-radius: 0.2rem;
+  @apply bg-neutral-400 mt-2;
+}
+
+.article-content > h3:not(.not-content) {
+  @apply font-sans text-20 font-medium leading-115 tracking-title mb-4 mt-8 sm:text-28;
+}
+
+.article-content > h4:not(.not-content) {
+  @apply font-sans text-18 font-medium leading-115 tracking-title mb-4 sm:text-24;
+}
+
+.article-content > h5:not(.not-content) {
+  @apply font-sans text-16 font-medium leading-115 tracking-title mb-4 sm:text-18;
+}
+
+.article-content > h6:not(.not-content) {
+  @apply font-sans text-14 font-bold leading-115 tracking-title mb-4 sm:text-16;
+}
+
+.article-content:not(.docs) > p:not(.not-content),
+.article-content:not(.docs) > ul:not(.not-content),
+.article-content:not(.docs) > blockquote:not(.not-content),
+.article-content:not(.docs) > ol:not(.not-content) {
+  @apply font-sans text-14 leading-165 tracking-paragraph mb-4 xxs:text-16;
+}
+
+.article-content.docs > p:not(.not-content),
+.article-content.docs > ul:not(.not-content),
+.article-content.docs > blockquote:not(.not-content),
+.article-content.docs > ol:not(.not-content) {
+  @apply font-sans text-14 leading-150 tracking-paragraph mb-4 xxs:text-16;
+}
+
+.article-content > blockquote:not(.not-content) {
+  @apply pl-4 border-l-4 border-purple-400 bg-purple-500 py-2 pr-3 rounded-2;
+}
+
+.article-content a:not(.not-content) {
+  @apply text-blue-700 dark:text-blue-300 underline;
+}
+
+.article-content > ul:not(.not-content) {
+  @apply list-disc pl-4 grid gap-2;
+}
+
+.article-content > ol:not(.not-content) {
+  @apply list-decimal pl-4 grid gap-2;
+}
+
+.article-content > p:not(.not-content) code,
+.article-content > ul:not(.not-content) li code,
+.article-content > ol:not(.not-content) li code {
+  @apply bg-neutral-100 px-1.5 py-0.5 rounded-4;
+  font-size: 0.875em;
+}
+
+.article-content > blockquote:not(.not-content) code {
+  @apply bg-purple-400 px-1.5 py-0.5 rounded-4;
+  font-size: 0.875em;
+}
+
+.article-content > pre:not(.not-content) {
+  @apply p-4 overflow-auto rounded-12 mb-6;
+  font-size: 0.875em;
+}
+
+.article-content > iframe:not(.not-content) {
+  @apply max-w-full rounded-12;
+}
+
+.article-content .references h4,
+.article-content .references h2, {
+  @apply text-18 font-medium tracking-subtitle mb-2;
+}
+
+.article-content .references ol {
+  @apply list-decimal pl-4 text-14 grid gap-2;
+}
+
+.article-content > table:not(.not-content) {
+  @apply border border-neutral-100 rounded-16 bg-white w-full overflow-auto mb-6 border-separate max-w-full;
+}
+
+.article-content > table:not(.not-content) tr:nth-child(even) {
+  @apply bg-purple-500;
+}
+
+.article-content > table:not(.not-content) td {
+  @apply p-2 text-14 xxs:text-16;
+}
+
+.full-image-cover img,
+.full-image-cover picture,
+.full-image-cover .custom-ejs {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.full-image-cover-top img,
+.full-image-cover-top picture,
+.full-image-cover-top .custom-ejs {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.full-image-contain img,
+.full-image-contain picture,
+.full-image-contain .custom-ejs {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
