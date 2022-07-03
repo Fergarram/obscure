@@ -30,6 +30,7 @@ async function createMarkdownStore({
 }) {
   const ret = {
     slug: null,
+    filename: null,
     frontmatter: null,
     html: null,
     data: null,
@@ -37,6 +38,13 @@ async function createMarkdownStore({
   };
 
   let source = fs.readFileSync(file, 'utf-8');
+  let obsidianComments = source.match(/\%\%([^]*?)\%\%/g);
+  if (obsidianComments && obsidianComments.length > 0) {            
+    // console.log(obsidianComments.length);
+    obsidianComments.forEach(item => {
+      source = source.replace(item, '');
+    });
+  }
   const matches = source.match(/\s*^---[^\S\r\n]*\r?\n[\s\S]*?^---[^\S\r\n]*\r?(\n|$)/my);
   const header = matches && matches[0];
   if (!header) {
@@ -45,22 +53,28 @@ async function createMarkdownStore({
     const result = await parser.process(header);
     ret.frontmatter = result.data.frontmatter || {};
   }
-  ret.slug = getSlug();
+  const { fileSlug, filename } = getSlug();
+  ret.slug = fileSlug;
+  ret.filename = filename;
   return ret;
 
   function getSlug() {
+    let output = {};
     const relativePath = path.relative(root, file).replace(/\\/g, '/');
     if (slug && typeof slug === 'function') {
       const result = slug(relativePath, ret.frontmatter);
       if (typeof result === 'string') {
-        return result;
+        output.fileSlug = result;
       }
     }
-    if (ret.frontmatter.slug) {
-      return ret.frontmatter.slug;
+    if (ret.frontmatter.slug && !output.fileSlug) {
+      output.fileSlug = ret.frontmatter.slug;
     }
     const fileName = preserveFolderStructure ? relativePath : file.split('/').pop();
-    return fileName.replace('.md', '').replace(/ /gim, '-');
+    output.filename = fileName.replace('.md', '');
+    if (!output.fileSlug) output.fileSlug = fileName.replace('.md', '').replace(/ /gim, '-');
+
+    return output;
   }
 
   async function compileHtml() {

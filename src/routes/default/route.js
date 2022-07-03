@@ -1,7 +1,7 @@
 const { hookInterface, hookEntityDefinitions } = require('@elderjs/elderjs');
 
 module.exports = {
-	all: () => [{ slug: '/' }],
+	// all: () => [{ slug: '/' }],
 	// permalink: '/',
 	data: ({ data }) => {},
 };

@@ -42,8 +42,9 @@ module.exports = {
 			slugFormatter: function(relativeFilePath, frontmatter) {
 				let parts = relativeFilePath.replace('vault/', '').replace('.md', '').split('/');
 				parts = parts.map(s => slugify(s).replace(/^-/g, ''));
-				console.log(parts.join('/'));
-				return parts.join('/');
+				// console.log(parts.join('/'));
+				const finalSlug = parts.join('/');
+				return finalSlug === 'readme' ? '/' : finalSlug;
 			},
 		}
 	},

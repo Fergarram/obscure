@@ -14,14 +14,14 @@
 }
 
 .article-content > h1:not(.not-content) {
-  @apply font-sans text-32 font-semibold leading-115 tracking-title mb-4 sm:text-44 xl:text-48;
+  @apply font-sans text-32 font-semibold leading-115 tracking-title mb-4 lg:text-40;
 }
 
 .article-content > h2:not(.not-content) {
   @apply font-sans text-24 font-medium leading-115 tracking-title mb-8 mt-10 sm:text-32 sm:font-semibold xl:text-36 xl:leading-125;
 }
 
-.article-content > h2:not(.not-content)::after {
+/*.article-content > h2:not(.not-content)::after {
   content: '';
   display: block;
   width: 1.5rem;
@@ -29,7 +29,7 @@
   border-radius: 0.2rem;
   @apply bg-neutral-400 mt-2;
 }
-
+*/
 .article-content > h3:not(.not-content) {
   @apply font-sans text-20 font-medium leading-115 tracking-title mb-4 mt-8 sm:text-28;
 }
@@ -46,26 +46,23 @@
   @apply font-sans text-14 font-bold leading-115 tracking-title mb-4 sm:text-16;
 }
 
-.article-content:not(.docs) > p:not(.not-content),
-.article-content:not(.docs) > ul:not(.not-content),
-.article-content:not(.docs) > blockquote:not(.not-content),
-.article-content:not(.docs) > ol:not(.not-content) {
-  @apply font-sans text-14 leading-165 tracking-paragraph mb-4 xxs:text-16;
-}
-
-.article-content.docs > p:not(.not-content),
-.article-content.docs > ul:not(.not-content),
-.article-content.docs > blockquote:not(.not-content),
-.article-content.docs > ol:not(.not-content) {
-  @apply font-sans text-14 leading-150 tracking-paragraph mb-4 xxs:text-16;
+.article-content > p:not(.not-content),
+.article-content > ul:not(.not-content),
+.article-content > blockquote:not(.not-content),
+.article-content > ol:not(.not-content) {
+  @apply font-mono text-14 leading-165 mb-4;
 }
 
 .article-content > blockquote:not(.not-content) {
-  @apply pl-4 border-l-4 border-purple-400 bg-purple-500 py-2 pr-3 rounded-2;
+  @apply pl-4 border-l-4 border-neutral-300 bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-700 py-2 pr-3 rounded-2;
 }
 
 .article-content a:not(.not-content) {
-  @apply text-blue-700 dark:text-blue-300 underline;
+  @apply text-blue-700 dark:text-blue-300 hover:underline;
+}
+
+.article-content hr:not(.not-content) {
+  @apply mb-4 border-neutral-200 dark:border-neutral-700;
 }
 
 .article-content > ul:not(.not-content) {

@@ -190,12 +190,69 @@ const plugin = {
       name: 'addFrontmatterAndHtmlToDataForRequest',
       description: 'Adds parsed frontmatter and html to the data object for the specific request.',
       priority: 50,
-      run: async ({ request, data }) => {
+      run: async ({ request, data, plugin }) => {
+        let reqs = plugin.requests.map(r => {
+          let directories = r.slug.split('/');
+          let file = directories.pop();
+          return { directories, file };
+        });
+
+        const directories = [];
+
+        // First layer
+        reqs.forEach(item => {
+          if (item.directories[0] && !directories.find(it => it.name === item.directories[0])) {
+            directories.push({
+              name: item.directories[0],
+              children: []
+            });
+          }
+        });
+
+        const nestLimit = Math.max(...reqs.map(s => s.directories.length));
+
+        for (let i = 0; i < nestLimit; i++) {
+          reqs.forEach(item => {
+            // @TODO: Sub folder instead of directions.findIndex, maybe a recursive function instead?
+            const index = directories.findIndex(dir => dir.name === item.directories[i]);
+            if (index !== -1) {
+              const name = item.directories.length === i+1 ? item.file : item.directories[i+1];
+              if (!directories[index].children.find(it => it.name === name)) {
+                directories[index].children.push({
+                  name,
+                  children: []
+                });
+              }
+            }
+          });
+        }
+
+        console.log(directories[0]);
+
         if (data.markdown && data.markdown[request.route]) {
           const markdown = data.markdown[request.route].find((m) => m.slug === request.slug);
           if (markdown) {
             await markdown.compileHtml();
-            let { html, frontmatter, data: addToData } = markdown;
+
+            let { filename, html, frontmatter, data: addToData } = markdown;
+
+            if (frontmatter && !frontmatter.title) {
+              frontmatter.title = filename;
+            }
+            
+            let internalLinks = html.match(/\[\[(.*)\]\]/g);
+            // @TODO: do something about the internal links that lead to not yet created files.
+            if (internalLinks && internalLinks.length > 0) {
+              internalLinks.forEach(link => {
+                // @FIXME: For some reason, links with an '&' will not be parsed as links. Actually, not all links work. See [[Artificial Worlds]]
+                const name = link.replace('[[', '').replace(']]', '');
+                const page = data.markdown[request.route].find((m) => m.filename === name);
+                if (page) {
+                  // @TODO: Make sure to place the page.slug relative to the route permalink.
+                  html = html.replace( link, `<a href="/${page.slug}">${name}</a>`);
+                }
+              });
+            }
 
             return {
               data: {
