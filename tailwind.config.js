@@ -8,11 +8,11 @@ module.exports = {
 	],
 	theme: {
 		fontFamily: {
-			'serif': [ 'Georgia', 'Times New Roman', 'Serif' ],
+			'content': [ 'JetBrains Mono', 'Courier New', 'monospace' ],
 			'sans': [ '-apple-system', 'Inter', 'Roboto', 'Helvetica', 'Sans-Serif' ],
-			'mono': [ 'JetBrains Mono', 'Courier New', 'monospace' ],
 		},
 		fontSize: {
+			'paragraph': '0.875rem',
 			'12': '0.75rem',
 			'14': '0.875rem',
 			'16': '1rem',

@@ -33,20 +33,19 @@ module.exports = {
 			],
 		},
 		'obsidian-parser': {
-			home: 'README',
 			routes: ['default'],
 			useTableOfContents: true,
 			useSyntaxHighlighting: {
-				theme: 'github-dark-dimmed', // available themes: https://github.com/shikijs/shiki/
+				theme: 'css-variables', // available themes: https://github.com/shikijs/shiki/
 			},
 			slugFormatter: function(relativeFilePath, frontmatter) {
+				// @TODO: Check if a folder has a child file with the same name or specify a convention.
 				let parts = relativeFilePath.replace('vault/', '').replace('.md', '').split('/');
 				parts = parts.map(s => slugify(s).replace(/^-/g, ''));
-				// console.log(parts.join('/'));
 				const finalSlug = parts.join('/');
 				return finalSlug === 'readme' ? '/' : finalSlug;
 			},
 		}
 	},
-	shortcodes: { closePattern: '}}', openPattern: '{{' },
+	shortcodes: { closePattern: '}}}', openPattern: '{{{' },
 };

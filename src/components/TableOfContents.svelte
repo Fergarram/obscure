@@ -1,27 +1,51 @@
-<div class="w-48 col-start-2 row-start-1 row-end-3 py-1 pl-4 border-l border-neutral-200 dark:border-neutral-700 translate-y-4 h-fit">
-	<h2 class="mb-3 font-medium">
-		Table of Contents
-	</h2>
-	<ul class="grid gap-1">
-		<li>
-			<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
-				Testing something
-			</a>
-		</li>
-		<li>
-			<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
-				Testing something
-			</a>
-		</li>
-		<li>
-			<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
-				Testing something
-			</a>
-		</li>
-		<li>
-			<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
-				Testing something
-			</a>
-		</li>
-	</ul>
+<script>
+	export let tocTree, backLinks;
+	const topHeadings = tocTree && tocTree.length === 1 ? tocTree[0].children : tocTree;
+</script>
+
+<div class="w-48 col-start-2 row-start-1 row-end-3">
+	{#if (topHeadings && topHeadings.length > 0) || (backLinks && backLinks.length > 0)}
+		<div class="py-1 pl-4 border-l border-neutral-200 dark:border-neutral-700 translate-y-4 absolute w-48">
+			{#if topHeadings && topHeadings.length > 0}
+				<h2 class="mb-3 font-medium">
+					Table of Contents
+				</h2>
+				<ul class="grid gap-3">
+					{#each topHeadings as item}
+						<li class="leading-115">
+							<a href="#{item.id}" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
+								{item.text}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+			<!-- @TODO: Implement backlinks -->
+			<!-- <h2 class="mb-3 mt-6 font-medium">
+				Backlinks
+			</h2>
+			<ul class="grid gap-3">
+				<li class="leading-115">
+					<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
+						Testing something
+					</a>
+				</li>
+				<li class="leading-115">
+					<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
+						Testing something
+					</a>
+				</li>
+				<li class="leading-115">
+					<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
+						Testing something
+					</a>
+				</li>
+				<li class="leading-115">
+					<a href="#" class="hover:underline text-14 text-blue-700 dark:text-blue-300">
+						Testing something
+					</a>
+				</li>
+			</ul> -->
+		</div>
+	{/if}
 </div>

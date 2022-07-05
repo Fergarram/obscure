@@ -3,8 +3,12 @@
 	import Header from '../../components/Header.svelte';
 	import Footer from '../../components/Footer.svelte';
 	import Sidebar from '../../components/Sidebar.svelte';
+	import ArrowRightIcon from '../../components/svgs/ArrowRight.svelte';
+	import HomeIcon from '../../components/svgs/Home.svelte';
+
 	export let data, helpers;
-	const { frontmatter, tocTree } = data;
+
+	const { frontmatter, breadcrumbs, tocTree, logo } = data;
 	const contentHasH1 = tocTree &&  tocTree.length > 0 && tocTree.find(i => i.depth === 1) ? true : false;
 	// .replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '').replace(/\s+/g, ' ').trim();
 </script>
@@ -21,13 +25,30 @@
 		<main class="grid grid-cols-auto-1fr">
 			<Sidebar />
 			<div class="py-6 px-10">
+				{#if breadcrumbs.length > 0}
+					<ul class="flex gap-2 text-14 mb-8">
+						<li>
+							<a href="/">
+								<HomeIcon size={20}/>
+							</a>
+						</li>
+						{#each breadcrumbs as item}
+							<li class="flex items-center gap-2">
+								<ArrowRightIcon size={16} classes="mt-px"/>
+								<a href={item.url} class="hover:underline">
+									{item.name}
+								</a>
+							</li>
+						{/each}
+					</ul>
+				{/if}
 				<div class="grid grid-cols-1fr-auto gap-y-6 gap-x-10">
 					{#if frontmatter && frontmatter.title && !contentHasH1}
-						<h1 class="font-sans text-32 font-semibold leading-115 tracking-title mb-4 lg:text-40 col-start-1">
+						<h1 class="article-content__h1 col-start-1">
 							{frontmatter.title}
 						</h1>
 					{/if}
-					<TableOfContents />
+					<TableOfContents {tocTree} />
 					<div class="article-content col-start-1">
 						{@html data.html}
 					</div>

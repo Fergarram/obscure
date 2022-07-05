@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const remarkHtml = require('remark-html');
 const remarkSlug = require('remark-slug');
+const decodeHTML = require('html-entities').decode;
 
 const prepareMarkdownParser = require('./utils/prepareMarkdownParser');
 const createMarkdownStore = require('./utils/markdownStore');
@@ -234,22 +235,36 @@ const plugin = {
           if (markdown) {
             await markdown.compileHtml();
 
-            let { filename, html, frontmatter, data: addToData } = markdown;
+            let { filename, html, frontmatter, data: addToData, slug } = markdown;
+            let breadcrumbs = [];
+
+            if (slug.split('/').length > 1 && slug !== '/') {
+              const urlParts = slug.split('/');
+              for (let j = 0; j < urlParts.length; j++) {
+                breadcrumbs.push({
+                  name: urlParts[j],
+                  url: '/' + urlParts.slice(0, j+1).join('/')
+                });
+              }
+            }
 
             if (frontmatter && !frontmatter.title) {
               frontmatter.title = filename;
             }
             
-            let internalLinks = html.match(/\[\[(.*)\]\]/g);
+            let internalLinks = html.match(/\[\[([^]*?)\]\]/g);
             // @TODO: do something about the internal links that lead to not yet created files.
+            //        And about repeated filenames usually differentiated by their parent folders...
             if (internalLinks && internalLinks.length > 0) {
               internalLinks.forEach(link => {
-                // @FIXME: For some reason, links with an '&' will not be parsed as links. Actually, not all links work. See [[Artificial Worlds]]
-                const name = link.replace('[[', '').replace(']]', '');
+                let name = decodeHTML(link.replace('[[', '').replace(']]', ''));
                 const page = data.markdown[request.route].find((m) => m.filename === name);
                 if (page) {
+                  // @IMPROVE: This emoji code seems finicky
+                  const emoji = name.match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/);
+                  if (emoji && emoji[0] && name[2] === ' ') name = name.replace(`${emoji[0]} `, `${emoji[0]}&nbsp;`);
                   // @TODO: Make sure to place the page.slug relative to the route permalink.
-                  html = html.replace( link, `<a href="/${page.slug}">${name}</a>`);
+                  html = html.replace( link, `<a class="internal-link" href="/${page.slug}">${name}</a>`);
                 }
               });
             }
@@ -259,6 +274,7 @@ const plugin = {
                 ...data,
                 ...addToData,
                 html,
+                breadcrumbs,
                 frontmatter,
               },
             };

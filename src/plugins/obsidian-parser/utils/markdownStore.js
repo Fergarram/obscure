@@ -53,7 +53,7 @@ async function createMarkdownStore({
     const result = await parser.process(header);
     ret.frontmatter = result.data.frontmatter || {};
   }
-  const { fileSlug, filename } = getSlug();
+  const { fileSlug, filename, breadcrumbs } = getSlug();
   ret.slug = fileSlug;
   ret.filename = filename;
   return ret;

@@ -46,7 +46,7 @@
 			⌘K
 		</span>
 	</button>
-	<ul class="grid gap-6">
+	<ul class="grid gap-6 text-14">
 		{#each tree as subtree}
 			<li>
 				<span class="block mb-2">

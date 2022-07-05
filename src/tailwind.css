@@ -1,3 +1,17 @@
+:root {
+  --shiki-color-text: #CCCCCC;
+  --shiki-color-background: #333333;
+  --shiki-token-constant: #ffffff;
+  --shiki-token-string: #ffffff;
+  --shiki-token-comment: #F59E0B;
+  --shiki-token-keyword: #CCCCCC;
+  --shiki-token-parameter: #CCCCCC;
+  --shiki-token-function: #CCCCCC;
+  --shiki-token-string-expression: #fff;
+  --shiki-token-punctuation: #CCCCCC;
+  --shiki-token-link: #CCCCCC;
+}
+
 @tailwind base;
 @tailwind utilities;
 
@@ -11,72 +25,131 @@
     word-break: normal;
   }
 
+  .heading-prefix-1::before {
+    content: '# ';
+    opacity: 0.25;
+  }
+
+  .heading-prefix-2::before {
+    content: '## ';
+    opacity: 0.25;
+  }
+
+  .heading-prefix-3::before {
+    content: '### ';
+    opacity: 0.25;
+  }
+
+  .heading-prefix-4::before {
+    content: '#### ';
+    opacity: 0.25;
+  }
+
+  .heading-prefix-5::before {
+    content: '##### ';
+    opacity: 0.25;
+  }
+
+  .heading-prefix-6::before {
+    content: '###### ';
+    opacity: 0.25;
+  }
+  
+  .full-image-cover img,
+  .full-image-cover picture,
+  .full-image-cover .custom-ejs {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .full-image-cover-top img,
+  .full-image-cover-top picture,
+  .full-image-cover-top .custom-ejs {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .full-image-contain img,
+  .full-image-contain picture,
+  .full-image-contain .custom-ejs {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
 }
 
-.article-content > h1:not(.not-content) {
-  @apply font-sans text-32 font-semibold leading-115 tracking-title mb-4 lg:text-40;
+.article-content {
+  @apply grid gap-y-5 font-content text-paragraph text-neutral-600 dark:text-neutral-400;
+}
+
+.article-content > h1:not(.not-content),
+.article-content__h1 {
+  @apply font-sans text-neutral-800 dark:text-neutral-100 text-24 font-semibold leading-115;
 }
 
 .article-content > h2:not(.not-content) {
-  @apply font-sans text-24 font-medium leading-115 tracking-title mb-8 mt-10 sm:text-32 sm:font-semibold xl:text-36 xl:leading-125;
+  @apply heading-prefix-2 mt-5 font-bold;
 }
 
-/*.article-content > h2:not(.not-content)::after {
-  content: '';
-  display: block;
-  width: 1.5rem;
-  height: 0.25rem;
-  border-radius: 0.2rem;
-  @apply bg-neutral-400 mt-2;
-}
-*/
 .article-content > h3:not(.not-content) {
-  @apply font-sans text-20 font-medium leading-115 tracking-title mb-4 mt-8 sm:text-28;
+  @apply heading-prefix-3 mt-5 font-bold;
 }
 
 .article-content > h4:not(.not-content) {
-  @apply font-sans text-18 font-medium leading-115 tracking-title mb-4 sm:text-24;
+  @apply heading-prefix-4 mt-5 font-bold;
 }
 
 .article-content > h5:not(.not-content) {
-  @apply font-sans text-16 font-medium leading-115 tracking-title mb-4 sm:text-18;
+  @apply heading-prefix-5 mt-5 font-bold;
 }
 
 .article-content > h6:not(.not-content) {
-  @apply font-sans text-14 font-bold leading-115 tracking-title mb-4 sm:text-16;
+  @apply heading-prefix-6 mt-5 font-bold;
 }
 
 .article-content > p:not(.not-content),
-.article-content > ul:not(.not-content),
-.article-content > blockquote:not(.not-content),
-.article-content > ol:not(.not-content) {
-  @apply font-mono text-14 leading-165 mb-4;
-}
-
 .article-content > blockquote:not(.not-content) {
-  @apply pl-4 border-l-4 border-neutral-300 bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-700 py-2 pr-3 rounded-2;
-}
-
-.article-content a:not(.not-content) {
-  @apply text-blue-700 dark:text-blue-300 hover:underline;
-}
-
-.article-content hr:not(.not-content) {
-  @apply mb-4 border-neutral-200 dark:border-neutral-700;
+  @apply leading-165;
 }
 
 .article-content > ul:not(.not-content) {
-  @apply list-disc pl-4 grid gap-2;
+  @apply list-disc pl-4;
 }
 
 .article-content > ol:not(.not-content) {
-  @apply list-decimal pl-4 grid gap-2;
+  @apply list-decimal pl-4;
+}
+
+.article-content > ul:not(.not-content) li,
+.article-content > ol:not(.not-content) li {
+    @apply mb-2 last:mb-0 leading-165;
+}
+
+.article-content > blockquote:not(.not-content) {
+  @apply pl-4 border-l-4 border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-700/20 py-2 pr-3 rounded-2;
+}
+
+.article-content a:not(.not-content).internal-link {
+  @apply text-blue-700 dark:text-blue-300 hover:bg-neutral-200 dark:hover:bg-neutral-600/50 bg-neutral-100 dark:bg-neutral-700/20 px-1.5 py-0.5 rounded-4 border border-neutral-200 dark:border-neutral-600;
+}
+
+.article-content a:not(.not-content):not(.internal-link) {
+  @apply text-blue-700 dark:text-blue-300 underline;
+}
+
+.article-content hr:not(.not-content) {
+  @apply border-neutral-200 dark:border-neutral-700;
 }
 
 .article-content > p:not(.not-content) code,
 .article-content > ul:not(.not-content) li code,
 .article-content > ol:not(.not-content) li code {
-  @apply bg-neutral-100 px-1.5 py-0.5 rounded-4;
+  @apply bg-neutral-200 dark:bg-neutral-900/50 dark:text-amber-500 px-1.5 py-0.5 rounded-4;
   font-size: 0.875em;
 }
 
@@ -86,7 +159,7 @@
 }
 
 .article-content > pre:not(.not-content) {
-  @apply p-4 overflow-auto rounded-12 mb-6;
+  @apply p-4 overflow-auto rounded-12;
   font-size: 0.875em;
 }
 
@@ -94,17 +167,8 @@
   @apply max-w-full rounded-12;
 }
 
-.article-content .references h4,
-.article-content .references h2, {
-  @apply text-18 font-medium tracking-subtitle mb-2;
-}
-
-.article-content .references ol {
-  @apply list-decimal pl-4 text-14 grid gap-2;
-}
-
 .article-content > table:not(.not-content) {
-  @apply border border-neutral-100 rounded-16 bg-white w-full overflow-auto mb-6 border-separate max-w-full;
+  @apply border border-neutral-100 rounded-16 bg-white w-full overflow-auto border-separate max-w-full;
 }
 
 .article-content > table:not(.not-content) tr:nth-child(even) {
@@ -112,32 +176,5 @@
 }
 
 .article-content > table:not(.not-content) td {
-  @apply p-2 text-14 xxs:text-16;
-}
-
-.full-image-cover img,
-.full-image-cover picture,
-.full-image-cover .custom-ejs {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.full-image-cover-top img,
-.full-image-cover-top picture,
-.full-image-cover-top .custom-ejs {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.full-image-contain img,
-.full-image-contain picture,
-.full-image-contain .custom-ejs {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
+  @apply p-2;
 }
