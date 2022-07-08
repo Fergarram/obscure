@@ -220,7 +220,7 @@ const plugin = {
       run: async ({ data, plugin }) => {
         if (plugin.config.routes.length > 0) {
           return {
-            data: { ...data, markdown: plugin.markdown },
+            data: { ...data, markdown: plugin.markdown, routeFileTree: plugin.fileTree },
           };
         }
       },
@@ -298,8 +298,8 @@ const plugin = {
               data: {
                 ...data,
                 ...addToData,
-                fileTree: plugin.fileTree,
                 html,
+                fileTree: data.routeFileTree,
                 breadcrumbs,
                 frontmatter,
               },
