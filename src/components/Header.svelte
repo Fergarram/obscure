@@ -13,7 +13,7 @@
 		},
 		{
 			text: 'Roadmap',
-			url: '/todo',
+			url: '/guide/todo',
 			ext: false
 		},
 		{
@@ -25,7 +25,7 @@
 </script>
 <header class="border-b border-neutral-200 dark:border-neutral-700 pb-5 flex items-center justify-between">
 	<a href="/" class="font-semibold text-28 tracking-title block leading-100">
-		Obscurity.Wiki
+		Obscurity Wiki
 	</a>
 	<ul class="flex items-center gap-8">
 		{#each shortcuts as item}

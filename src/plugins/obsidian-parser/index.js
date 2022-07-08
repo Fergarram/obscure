@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const remarkHtml = require('remark-html');
 const remarkSlug = require('remark-slug');
-const decodeHTML = require('html-entities').decode;
+const { decode, encode } = require('html-entities');
+const { findEmoji, slugify } = require('./utils/utils');
 
 const prepareMarkdownParser = require('./utils/prepareMarkdownParser');
 const createMarkdownStore = require('./utils/markdownStore');
@@ -19,12 +20,65 @@ const remarkPlugins = [
   [remarkHtml, { sanitize: false }],
 ];
 
+const arrangeIntoTree = (paths, pluginConfig) => {
+  let tree = [];
+
+  const findWhere = (array, key, value) => {
+      let t = 0;
+      while (t < array.length && array[t][key] !== value) { t++; };
+
+      if (t < array.length) {
+          return array[t]
+      } else {
+          return false;
+      }
+  };
+
+  for (let i = 0; i < paths.length; i++) {
+      const filepath = paths[i];
+      let currentLevel = tree;
+      for (let j = 0; j < filepath.length; j++) {
+          let part = filepath[j];
+
+          let existingPath = findWhere(currentLevel, 'name', part.replace('.md', ''));
+
+          if (existingPath) {
+              currentLevel = existingPath.children;
+          } else {
+            let slug = slugify(part.replace('.md', '')).replace(/^-/g, '');
+            slug = slug === pluginConfig.home ? '/' : slug
+
+            const finalPath = filepath.map(p => slugify(p.replace('.md', '')).replace(/^-/g, '')).join('/');
+            const finalParts = finalPath.split('/');
+
+            if (finalParts[finalParts.length - 2] === finalParts[finalParts.length - 1]) {
+              finalParts.splice(finalParts.length - 2, 1);
+            }
+
+            const newPart = {
+                name: part.replace('.md', ''),
+                slug,
+                // @TODO: Make sure to place the path relative to the route permalink.
+                path: finalParts.join('/'),
+                children: [],
+            }
+
+            currentLevel.push(newPart);
+            currentLevel = newPart.children;
+          }
+      }
+  }
+
+  return tree;
+};
+
 const plugin = {
   name: 'obsidian-parser',
   description: '',
   init: async (plugin) => {
     // used to store the data in the plugin's closure so it is persisted between loads
     plugin.markdown = {};
+    plugin.fileTree = [];
     plugin.requests = [];
 
     plugin.references = {};
@@ -72,17 +126,25 @@ const plugin = {
 
         const mdFiles = glob.sync(`${mdsInRoute}/vault/**/*.md`);
 
+        const paths = [];
+
         for (const file of mdFiles) {
           const markdown = await createMarkdownStore({
+            pluginConfig: plugin.config,
             root: mdsInRoute,
             file,
             parser: plugin.markdownParser,
             useImagePlugin: plugin.settings.plugins['@elderjs/plugin-images'] && plugin.config.useElderJsPluginImages,
-            shortcodes: plugin.settings.shortcodes,
-            slug: plugin.config.slugFormatter,
+            shortcodes: plugin.settings.shortcodes
           });
           plugin.markdown[route].push(markdown);
+          const relFilename = path.relative(mdsInRoute, file).replace(/\\/g, '/');
+          const parts = relFilename.split('/');
+          parts.shift(); // Remove the 'vault' folder container.
+          paths.push(parts);
         }
+
+        plugin.fileTree = arrangeIntoTree(paths, plugin.config);
 
         // if there is a date in frontmatter, sort them by most recent
         const haveDates = plugin.markdown[route].reduce((out, cv) => {
@@ -192,44 +254,6 @@ const plugin = {
       description: 'Adds parsed frontmatter and html to the data object for the specific request.',
       priority: 50,
       run: async ({ request, data, plugin }) => {
-        let reqs = plugin.requests.map(r => {
-          let directories = r.slug.split('/');
-          let file = directories.pop();
-          return { directories, file };
-        });
-
-        const directories = [];
-
-        // First layer
-        reqs.forEach(item => {
-          if (item.directories[0] && !directories.find(it => it.name === item.directories[0])) {
-            directories.push({
-              name: item.directories[0],
-              children: []
-            });
-          }
-        });
-
-        const nestLimit = Math.max(...reqs.map(s => s.directories.length));
-
-        for (let i = 0; i < nestLimit; i++) {
-          reqs.forEach(item => {
-            // @TODO: Sub folder instead of directions.findIndex, maybe a recursive function instead?
-            const index = directories.findIndex(dir => dir.name === item.directories[i]);
-            if (index !== -1) {
-              const name = item.directories.length === i+1 ? item.file : item.directories[i+1];
-              if (!directories[index].children.find(it => it.name === name)) {
-                directories[index].children.push({
-                  name,
-                  children: []
-                });
-              }
-            }
-          });
-        }
-
-        console.log(directories[0]);
-
         if (data.markdown && data.markdown[request.route]) {
           const markdown = data.markdown[request.route].find((m) => m.slug === request.slug);
           if (markdown) {
@@ -241,6 +265,7 @@ const plugin = {
             if (slug.split('/').length > 1 && slug !== '/') {
               const urlParts = slug.split('/');
               for (let j = 0; j < urlParts.length; j++) {
+                // @TODO: Find the name in the tree using the url below
                 breadcrumbs.push({
                   name: urlParts[j],
                   url: '/' + urlParts.slice(0, j+1).join('/')
@@ -257,11 +282,11 @@ const plugin = {
             //        And about repeated filenames usually differentiated by their parent folders...
             if (internalLinks && internalLinks.length > 0) {
               internalLinks.forEach(link => {
-                let name = decodeHTML(link.replace('[[', '').replace(']]', ''));
+                let name = decode(link.replace('[[', '').replace(']]', ''));
                 const page = data.markdown[request.route].find((m) => m.filename === name);
                 if (page) {
-                  // @IMPROVE: This emoji code seems finicky
-                  const emoji = name.match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/);
+                  const emoji = findEmoji(name);
+                  // @IMPROVE: This emoji condition seems finicky
                   if (emoji && emoji[0] && name[2] === ' ') name = name.replace(`${emoji[0]} `, `${emoji[0]}&nbsp;`);
                   // @TODO: Make sure to place the page.slug relative to the route permalink.
                   html = html.replace( link, `<a class="internal-link" href="/${page.slug}">${name}</a>`);
@@ -273,6 +298,7 @@ const plugin = {
               data: {
                 ...data,
                 ...addToData,
+                fileTree: plugin.fileTree,
                 html,
                 breadcrumbs,
                 frontmatter,

@@ -1,9 +1,8 @@
-/**
- * Take a string and returns a URL safe version of it.
- *
- * @param {String} str String with spaces and possible special chars
- * @returns {String} URL safe string
- */
+function findEmoji(str) {
+  if (!str) return null;
+  else return str.match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/);
+}
+
 function slugify(str) {
   str = str.replace(/^\s+|\s+$/g, '');
 
@@ -29,4 +28,5 @@ function slugify(str) {
 
   return str;
 }
-module.exports = slugify;
+
+module.exports = { slugify, findEmoji };

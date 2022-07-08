@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { slugify, findEmoji } = require('./utils');
 
 function compileImage(md, openPattern = '{{', closePattern = '}}') {
   // replace md images if image plugin is being used
@@ -20,6 +21,7 @@ function compileImage(md, openPattern = '{{', closePattern = '}}') {
 }
 
 async function createMarkdownStore({
+  pluginConfig,
   root,
   file,
   slug,
@@ -61,15 +63,33 @@ async function createMarkdownStore({
   function getSlug() {
     let output = {};
     const relativePath = path.relative(root, file).replace(/\\/g, '/');
+
+    let parts = relativePath.replace(`${pluginConfig.vault}/`, '').replace('.md', '').split('/');
+    parts = parts.map(s => slugify(s).replace(/^-/g, ''));
+
+    // Check if last two items are the same (ignoring the emoji)
+    // @TODO: Check in config what's the convention
+    let parent = parts[parts.length - 2];
+    let name = parts[parts.length - 1];
+
+    if (parent === name) {
+      parts.splice(parts.length - 2, 1);
+    }
+
+    const finalSlug = parts.join('/');
+    output.fileSlug = finalSlug === pluginConfig.home ? '/' : finalSlug;
+
     if (slug && typeof slug === 'function') {
-      const result = slug(relativePath, ret.frontmatter);
+      const result = pluginConfig.slugFormatter(relativePath, ret.frontmatter);
       if (typeof result === 'string') {
         output.fileSlug = result;
       }
     }
+
     if (ret.frontmatter.slug && !output.fileSlug) {
       output.fileSlug = ret.frontmatter.slug;
     }
+
     const fileName = preserveFolderStructure ? relativePath : file.split('/').pop();
     output.filename = fileName.replace('.md', '');
     if (!output.fileSlug) output.fileSlug = fileName.replace('.md', '').replace(/ /gim, '-');

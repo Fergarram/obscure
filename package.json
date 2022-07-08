@@ -8,7 +8,7 @@
 		"build": "node ./src/cleanPublic.js && npm run build:rollup && npm run build:html",
 		"build:rollup": "rollup -c",
 		"build:html": "node ./src/build.js",
-		"dev": "concurrently \"npm:esbuild\" \"npm:tailwind:dev\"",
+		"dev": "concurrently \"bun run esbuild\" \"bun run tailwind:dev\"",
 		"serve": "node ./src/cleanPublic.js && npm run build:rollup && NODE_ENV=production node ./src/server.js",
 		"esbuild": "node esbuild.js",
 		"tailwind": "tailwindcss -i ./src/tailwind.css -o ./public/styles.css --minify --postcss",

@@ -1,37 +1,16 @@
 <script>
 	import SearchIcon from './svgs/Search.svelte';
+	import InnerFileTree from './InnerFileTree.svelte';
+	import { onMount } from 'svelte';
+
+	export let fileTree;
 
 	const showOptionalSidebarTitle = false;
 
-	const tree = [
-		{
-			text: 'Major folder',
-			children: [
-				{text: 'child thing'},{text: 'child thing'},{text: 'child thing'},
-			]
-		},
-		{
-			text: 'Major folder',
-			children: [
-				{text: 'child thing'},{text: 'child thing'},{text: 'child thing'},
-			]
-		},
-		{
-			text: 'Major folder',
-			children: [
-				{text: 'child thing'},{text: 'child thing'},{text: 'child thing'},
-			]
-		},
-		{
-			text: 'Major folder',
-			children: [
-				{text: 'child thing'},{text: 'child thing'},{text: 'child thing'},
-			]
-		},
-	];
+	onMount(() => console.log(fileTree));
 </script>
 
-<aside class="border-r border-neutral-200 dark:border-neutral-700 w-64 pt-6 pr-6">
+<aside class="border-r border-neutral-200 dark:border-neutral-700 w-64 pt-6 pr-6 pb-6">
 	{#if showOptionalSidebarTitle}
 		<span class="block text-20 font-medium tracking-title mb-4">
 			Optional Sidebar Title
@@ -46,20 +25,7 @@
 			⌘K
 		</span>
 	</button>
-	<ul class="grid gap-6 text-14">
-		{#each tree as subtree}
-			<li>
-				<span class="block mb-2">
-					{subtree.text}
-				</span>
-				<ul class="pl-4 grid gap-1 border-l-2 border-neutral-200 dark:border-neutral-700">
-					{#each subtree.children as child}
-						<li>
-							{child.text}
-						</li>
-					{/each}
-				</ul>
-			</li>
-		{/each}
-	</ul>
+	<div class="overflow-auto max-h-[calc(100vh-8rem)] hide-scrollbars">
+		<InnerFileTree {fileTree} expanded={true} />
+	</div>
 </aside>
