@@ -1,59 +1,23 @@
 # Obscure - A static site generator for Obsidian vaults based on Elder.js 
 
-Blank starter template for Elder.js sites.
+I needed a way to publish my exsiting Obsidian research vault so that new readers could explore it. I considered the existing [Obsidian publishing service](https://obsidian.md/publish) but I don't like how limited in terms of customizability it is.
 
-This template asumes you have basic knowledge of how to use Elder.js. If you are wanting to learn more about all the bits and pieces then go ahead and use the official Elder.js template. I created this template for myself to be able to quick-start new projects, it's basically a slim fork of the original. I usually want to be ready to add TailwindCSS, SCSS, or PostCSS. So I might add this as an option or something.
+Currently, Obscure is still a WIP and should not be used in any serious way. I do plan to make this as accesible as possible, even for non-technical users. So here is a roadmap of how that may look:
 
-Here's a list of the main differences between this and the official template:
+## Roadmap to V1
 
-- I use tabs instead of spaces for all files.
-- I removed prettier and eslint.
-- I removed most examples only leaving placeholders for common things. 
+- [ ] Cover all of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
+- [ ] Handle [embedded files](https://help.obsidian.md/How+to/Embed+files).
+- [ ] Fix all bugs (which I won't bother to write here).
+- [ ] Finish mobile styles.
+- [ ] Implement search.
+- [ ] Make Obsidian notes (`%%`) toggable in the generated site and have that be an option in the main config.
+- [ ] General clean up, formalize project setup and make it easy to configure.
+- [ ] Add a toolbar as shown in my [Figma file](https://www.figma.com/file/S1H33ONKWWWsGL2n6zFTUc/Documentation-Template?node-id=0%3A1).
 
-## Get started
+One of my personal uses for Obscure besides my personal research vault is to generate a wiki for [nuestro.voto](//fernando.works/projects/nuestro-voto). This means you can expect me to complete the roadmap above before the year 2022 ends.
 
-### Install the dependencies:
 
-```bash
-npm install # or just yarn
-```
+## Further goals
 
-### Start Project:
-
-```bash
-npm start # or npm run dev
-```
-
-Navigate to [localhost:3000](http://localhost:3000). You should see your app running.
-
-This spawns a development server, so simply edit a file in `src`, save it, and reload the page to see your changes.
-
-#### What to Expect
-
-- A dev server is watching your files for changes. It will restart when it needs to.
-- Rollup is watching your files for changes. It will restart when it needs to.
-- If your `elder.config.js` has `@elderjs/plugin-browser-reload': {}` in it's plugins, your browser will automatically restart after the server restarts.
-
-**esbuild**
-
-If you are looking for a faster development experience run `npm run esbuild` this is experimental but will be improving rapidly.
-
-### To Build HTML for Production:
-
-```bash
-npm run build
-```
-
-Let the build finish. It will put all of your statically generated files in `./public`.
-
-If you wish to preview you can use:
-
-```bash
-npx sirv-cli public
-```
-
-### To Run in SSR Mode for Production:
-
-```bash
-npm run serve
-```
+As I mentioned, I intend to make this usable by programming-impaired users. To do so, I want to create either an Obsidian plugin or a "native" app that allows these users to pick a vault, customize their site settings, and have the app generate either a git repository that can be used to push this to netlify or any static web hosting service or something similar.
