@@ -4,7 +4,7 @@
 	import { slide } from 'svelte/transition';
 
 	export let fileTree;
-	export let classes = 'flex flex-col gap-4 text-12';
+	export let classes = 'flex flex-col gap-2 text-12';
 	export let expanded = false;
 
 	if (fileTree && fileTree.length > 0) fileTree.forEach(item => item.expanded = expanded);
@@ -14,14 +14,14 @@
 	{#each fileTree as subtree}
 		<li>
 			{#if subtree.children.length > 0}
-				<button class="flex items-center gap-1" on:click={() => subtree.expanded = !subtree.expanded} title="{subtree.name}">
+				<button class="hover:bg-neutral-100 dark:hover:bg-neutral-700/50 px-1.5 py-1 rounded-8 flex w-full items-center gap-1" on:click={() => subtree.expanded = !subtree.expanded} title="{subtree.name}">
 					<ChevronIcon size={20} classes="transition -translate-x-px {!subtree.expanded ? '-rotate-90' : ''}" />
 					<span class="truncate">
 						{subtree.name}
 					</span>
 				</button>
 			{:else}
-				<a class="block ml-6 truncate" href="/{subtree.path}" title="{subtree.name}">
+				<a class="hover:bg-neutral-100 dark:hover:bg-neutral-700/50 px-1.5 py-1 rounded-8 block ml-6 truncate" href="/{subtree.path}" title="{subtree.name}">
 					{subtree.name}
 				</a>
 			{/if}
@@ -30,7 +30,7 @@
 					<InnerFileTree
 						expanded={true}
 						fileTree={subtree.children}
-						classes="pl-1.5 ml-2 text-12 flex flex-col gap-2 mt-2"
+						classes="pl-1.5 ml-2 text-12 flex flex-col gap-1 mt-1"
 					/>
 				</div>
 			{/if}

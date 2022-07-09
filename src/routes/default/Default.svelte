@@ -20,17 +20,17 @@
 </svelte:head>
 
 <div class="dark:bg-neutral-800 min-h-screen text-neutral-800 dark:text-neutral-100">
-	<div class="p-10">
+	<div class="p-4 sm:p-8 md:p-10">
 	<!-- <div class="p-10 max-w-80rem mx-auto"> -->
 		<Header />
-		<main class="grid grid-cols-auto-1fr">
+		<main class="lg:grid lg:grid-cols-auto-1fr">
 			<div class="sticky top-0 h-fit">
 				<Sidebar hydrate-client={{ fileTree }} />
 			</div>
 			<!-- <div class="py-6 px-10"> -->
-			<div class="py-6 px-10 w-[60em] mx-auto">
+			<div class="py-4 lg:py-6 lg:px-10 w-full max-w-[60em] mx-auto">
 				{#if breadcrumbs.length > 0}
-					<ul class="flex gap-2 text-14 mb-8">
+					<ul class="overflow-auto hide-scrollbars flex gap-2 text-14 mb-6 lg:mb-8">
 						<li>
 							<a href="/">
 								<HomeIcon size={20}/>
@@ -39,21 +39,21 @@
 						{#each breadcrumbs as item}
 							<li class="flex items-center gap-2">
 								<ArrowRightIcon size={16} classes="mt-px"/>
-								<a href={item.url} class="hover:underline">
+								<a href={item.url} class="hover:underline whitespace-nowrap">
 									{item.name}
 								</a>
 							</li>
 						{/each}
 					</ul>
 				{/if}
-				<div class="grid grid-cols-1fr-auto">
+				<div class="grid md:grid-cols-1fr-auto">
 					{#if frontmatter && frontmatter.title && !contentHasH1}
-						<h1 class="article-content__h1 mb-6 col-start-1 col-end-3">
+						<h1 class="article-content__h1 mb-6 md:col-start-1 md:col-end-3">
 							{frontmatter.title}
 						</h1>
 					{/if}
-					<TableOfContents {tocTree} classes="col-start-2 col-end-3 row-start-2 mt-6"/>
-					<div class="article-content col-start-1 col-end-2 row-start-2">
+					<TableOfContents {tocTree} classes="md:col-start-2 md:col-end-3 md:row-start-2 mb-2 md:mb-0 md:mt-6"/>
+					<div class="article-content md:col-start-1 md:col-end-2 md:row-start-2 pb-10">
 						{@html data.html}
 					</div>
 				</div>

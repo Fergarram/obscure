@@ -1,12 +1,12 @@
 <script>
 	export let tocTree, backLinks;
 	export let classes = '';
-	const topHeadings = tocTree && tocTree.length === 1 ? tocTree[0].children : tocTree;
+	const topHeadings = tocTree && tocTree.length === 1 && tocTree[0].depth === 1 ? tocTree[0].children : tocTree;
 </script>
 
-<div class="pl-10 {classes}">
+<div class="md:pl-8 xl:pl-10 {classes}">
 	{#if (topHeadings && topHeadings.length > 0) || (backLinks && backLinks.length > 0)}
-		<div class="py-1 pl-4 border-l border-neutral-200 dark:border-neutral-700 w-48 top-10 sticky">
+		<div class="py-1 pl-4 border-l border-neutral-200 dark:border-neutral-700 w-48 top-10 md:sticky">
 			{#if topHeadings && topHeadings.length > 0}
 				<h2 class="mb-3 font-medium">
 					Table of Contents

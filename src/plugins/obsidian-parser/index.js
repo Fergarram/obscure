@@ -262,12 +262,24 @@ const plugin = {
             let { filename, html, frontmatter, data: addToData, slug } = markdown;
             let breadcrumbs = [];
 
+            // @TODO: Make sure that renamed slugs like "cognitive-research/cognitive-research" get propper breadcrumbs.
             if (slug.split('/').length > 1 && slug !== '/') {
               const urlParts = slug.split('/');
+
+              let names = {};
+              let tempTree = data.routeFileTree;
               for (let j = 0; j < urlParts.length; j++) {
-                // @TODO: Find the name in the tree using the url below
+                const newTree = tempTree.find((t) => t.slug === urlParts[j]);
+                if (newTree) {
+                  names[newTree.slug] = newTree.name;
+                  tempTree = newTree.children;
+                }
+              }
+
+              for (let j = 0; j < urlParts.length; j++) {
                 breadcrumbs.push({
-                  name: urlParts[j],
+                  name: names[urlParts[j]],
+                  slug: urlParts[j],
                   url: '/' + urlParts.slice(0, j+1).join('/')
                 });
               }
@@ -299,9 +311,9 @@ const plugin = {
                 ...data,
                 ...addToData,
                 html,
-                fileTree: data.routeFileTree,
                 breadcrumbs,
                 frontmatter,
+                fileTree: data.routeFileTree,
               },
             };
           }

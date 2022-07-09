@@ -10,7 +10,7 @@
 	onMount(() => console.log(fileTree));
 </script>
 
-<aside class="border-r border-neutral-200 dark:border-neutral-700 w-64 pt-6 pr-6 pb-6">
+<aside class="hidden xl:block border-r border-neutral-200 dark:border-neutral-700 w-64 pt-6 pr-6 pb-6">
 	{#if showOptionalSidebarTitle}
 		<span class="block text-20 font-medium tracking-title mb-4">
 			Optional Sidebar Title

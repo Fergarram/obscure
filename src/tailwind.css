@@ -99,7 +99,8 @@
 
 .article-content > h1:not(.not-content),
 .article-content__h1 {
-  @apply font-sans text-neutral-800 dark:text-neutral-100 text-28 font-semibold leading-115;
+  @apply font-sans text-neutral-800 dark:text-neutral-100 font-semibold leading-115;
+  font-size: 1.75em;
 }
 
 .article-content > h2:not(.not-content) {
@@ -124,6 +125,7 @@
 
 .article-content > h6:not(.not-content) {
   @apply font-sans heading-prefix-6 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200;
+  font-size: 1em;
 }
 
 .article-content > h2:not(.not-content) + h3,

@@ -12,7 +12,7 @@ module.exports = {
 			'sans': [ '-apple-system', 'Inter', 'Roboto', 'Helvetica', 'Sans-Serif' ],
 		},
 		fontSize: {
-			'paragraph': '0.875rem',
+			'paragraph': '0.8125rem',
 			'12': '0.75rem',
 			'13': '0.8125rem',
 			'14': '0.875rem',
@@ -53,7 +53,7 @@ module.exports = {
 			'sm': '37.5rem',     // 600px
 			'md': '48rem',       // 768px
 			'lg': '64rem',       // 1024px
-			'xl': '80rem',       // 1280px
+			'xl': '75rem',       // 1200px
 			'xxl': '90rem',      // 1440px
 			'3xl': '100rem',     // 1600px
 		},
