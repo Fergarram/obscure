@@ -19,7 +19,7 @@
 	<link href="/" rel="canonical" />
 </svelte:head>
 
-<div class="dark:bg-neutral-800 min-h-screen text-neutral-800 dark:text-neutral-100">
+<div class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100">
 	<div class="p-4 sm:p-8 md:p-10">
 	<!-- <div class="p-10 max-w-80rem mx-auto"> -->
 		<Header />
@@ -31,15 +31,15 @@
 			<div class="py-4 lg:py-6 lg:px-10 w-full max-w-[60em] mx-auto">
 				{#if breadcrumbs.length > 0}
 					<ul class="overflow-auto hide-scrollbars flex gap-2 text-14 mb-6 lg:mb-8">
-						<li>
+						<li class="opacity-60 hover:opacity-100">
 							<a href="/">
 								<HomeIcon size={20}/>
 							</a>
 						</li>
 						{#each breadcrumbs as item}
-							<li class="flex items-center gap-2">
+							<li class="flex items-center gap-2 opacity-60 hover:opacity-100">
 								<ArrowRightIcon size={16} classes="mt-px"/>
-								<a href={item.url} class="hover:underline whitespace-nowrap">
+								<a href={item.url} class="whitespace-nowrap">
 									{item.name}
 								</a>
 							</li>

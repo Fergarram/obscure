@@ -2,6 +2,13 @@
 
 I needed a way to publish my exsiting Obsidian research vault so that new readers could explore it. I considered the existing [Obsidian publishing service](https://obsidian.md/publish) but I don't like how limited in terms of customizability it is.
 
+Here's a list of essential features for me:
+
+- Blazing fast & SEO first
+- No client-side routing
+- Highly customizable
+- Custom shortcodes
+
 Currently, Obscure is still a WIP and should not be used in any serious way. I do plan to make this as accesible as possible, even for non-technical users. So here is a roadmap of how that may look:
 
 ## Roadmap to V1
@@ -14,6 +21,8 @@ Currently, Obscure is still a WIP and should not be used in any serious way. I d
 - [ ] Make Obsidian notes (`%%`) toggable in the generated site and have that be an option in the main config.
 - [ ] General clean up, formalize project setup and make it easy to configure.
 - [ ] Add a toolbar as shown in my [Figma file](https://www.figma.com/file/S1H33ONKWWWsGL2n6zFTUc/Documentation-Template?node-id=0%3A1).
+
+> NOTE: Know in advance that I will not implement a graph view.
 
 One of my personal uses for Obscure besides my personal research vault is to generate a wiki for [nuestro.voto](//fernando.works/projects/nuestro-voto). This means you can expect me to complete the roadmap above before the year 2022 ends.
 
