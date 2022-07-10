@@ -4,7 +4,8 @@ I needed a way to publish my exsiting Obsidian research vault so that new reader
 
 Here's a list of essential features for me:
 
-- Blazing fast & SEO first
+- Blazing fast
+- SEO first
 - No client-side routing
 - Highly customizable
 - Custom shortcodes
@@ -13,7 +14,17 @@ Currently, Obscure is still a WIP and should not be used in any serious way. I d
 
 ## Roadmap to V1
 
-- [ ] Cover all of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
+If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it.
+
+- [ ] Cover most of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
+	- [ ] Strike through with `~~x~~`
+	- [ ] Highlighting with `==x==` or `::x::`
+	- [ ] Image resizing
+	- [ ] Automatic links (no syntax just URL)
+	- [ ] Tables
+	- [ ] Footnotes
+	- [ ] Math
+	- [ ] Callouts
 - [ ] Handle [embedded files](https://help.obsidian.md/How+to/Embed+files).
 - [ ] Fix all bugs (which I won't bother to write here).
 - [ ] Finish mobile styles.
