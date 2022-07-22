@@ -31,9 +31,9 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 - [ ] Finish mobile styles. ‼️
 - [ ] Implement search. ‼️
 - [ ] Add DRAFT prefix support.
-- [ ] Make Obsidian notes (`%%`) toggable by reader and have that be an option in `obscure.config.js`.
+- [ ] Make Obsidian notes (`%%`) toggable by reader and have that be an option in `obscure.config.js`. ‼️
 - [ ] List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
-- [ ] General clean up, formalize project setup and make it easy to configure. ‼️
+- [ ] General clean up, formalize project setup and make it easy to configure.
 
 > NOTE: Know in advance that I will not implement a graph view.
 
