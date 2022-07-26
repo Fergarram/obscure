@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const remarkHtml = require('remark-html');
 const remarkSlug = require('remark-slug');
+
 const { decode, encode } = require('html-entities');
 const { findEmoji, slugify } = require('./utils/utils');
 
@@ -302,6 +303,8 @@ const plugin = {
                   if (emoji && emoji[0] && name[2] === ' ') name = name.replace(`${emoji[0]} `, `${emoji[0]}&nbsp;`);
                   // @TODO: Make sure to place the page.slug relative to the route permalink.
                   html = html.replace( link, `<a class="internal-link" href="/${page.slug}">${name}</a>`);
+                } else {
+                  html = html.replace( link, `<span class="ghost-link" title="Page not yet created.">${name}</span>`);
                 }
               });
             }
@@ -311,9 +314,9 @@ const plugin = {
                 ...data,
                 ...addToData,
                 html,
+                fileTree: data.routeFileTree,
                 breadcrumbs,
                 frontmatter,
-                fileTree: data.routeFileTree,
               },
             };
           }

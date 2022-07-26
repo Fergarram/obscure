@@ -87,6 +87,19 @@
     object-fit: contain;
     object-position: center;
   }
+
+  .hide-scrollbars::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbars {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .md-comment {
+    @apply hidden bg-neutral-100 dark:bg-neutral-700/20 px-2 py-1 rounded-4 border border-t-8 pt-2 border-neutral-200 dark:border-neutral-600 w-full overflow-scroll;
+  }
 }
 
 .article-content {
@@ -99,7 +112,7 @@
 
 .article-content > h1:not(.not-content),
 .article-content__h1 {
-  @apply font-sans text-neutral-800 dark:text-neutral-100 font-semibold leading-115;
+  @apply font-sans text-neutral-800 dark:text-neutral-100 font-semibold leading-115 tracking-title;
   font-size: 1.75em;
 }
 
@@ -141,13 +154,15 @@
 }
 
 .article-content > ul:not(.not-content),
-.article-content > ul:not(.not-content) ul {
-  @apply list-disc pl-6;
+.article-content > ul:not(.not-content) ul,
+.article-content > ol:not(.not-content) ul, {
+  @apply list-disc pl-6 pt-1;
 }
 
 .article-content > ol:not(.not-content),
-  .article-content > ol:not(.not-content) ol {
-  @apply list-decimal pl-6;
+.article-content > ol:not(.not-content) ol,
+.article-content > ul:not(.not-content) ol {
+  @apply list-decimal pl-6 pt-1;
 }
 
 .article-content > ul:not(.not-content) li,
@@ -171,7 +186,12 @@
   line-height: 2;
 }
 
-.article-content a:not(.not-content):not(.internal-link) {
+.article-content span:not(.not-content).ghost-link {
+  @apply bg-neutral-100 dark:bg-neutral-700/20 px-1.5 py-0.5 rounded-4 border border-neutral-200 dark:border-neutral-600 cursor-not-allowed;
+  line-height: 2;
+}
+
+.article-content a:not(.not-content):not(.internal-link):not(.ghost-link) {
   @apply text-blue-700 dark:text-blue-300 underline;
 }
 
@@ -210,13 +230,4 @@
 
 .article-content > table:not(.not-content) td {
   @apply p-2;
-}
-
-.hide-scrollbars::-webkit-scrollbar {
-  display: none;
-}
-
-.hide-scrollbars {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }

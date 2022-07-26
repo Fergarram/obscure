@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { decode, encode } = require('html-entities');
 const { slugify, findEmoji } = require('./utils');
 
 function compileImage(md, openPattern = '{{', closePattern = '}}') {
@@ -44,7 +45,7 @@ async function createMarkdownStore({
   if (obsidianComments && obsidianComments.length > 0) {            
     // console.log(obsidianComments.length);
     obsidianComments.forEach(item => {
-      source = source.replace(item, '');
+      source = source.replace(item, `<div class="md-comment">${item.replace(/\%\%/g, '').replace(/\n/g, '<br>')}</div>`);
     });
   }
   const matches = source.match(/\s*^---[^\S\r\n]*\r?\n[\s\S]*?^---[^\S\r\n]*\r?(\n|$)/my);

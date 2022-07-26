@@ -8,7 +8,7 @@
 	{#if (topHeadings && topHeadings.length > 0) || (backLinks && backLinks.length > 0)}
 		<div class="py-1 pl-4 border-l border-neutral-200 dark:border-neutral-700 w-48 top-10 md:sticky">
 			{#if topHeadings && topHeadings.length > 0}
-				<h2 class="mb-3 font-medium">
+				<h2 class="mb-3 font-medium tracking-subtitle">
 					Table of Contents
 				</h2>
 				<ul class="grid gap-3">

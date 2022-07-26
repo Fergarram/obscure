@@ -24,7 +24,7 @@
 			Quick search...
 		</span>
 		<span>
-			⌘K
+			⌘O
 		</span>
 	</button>
 	<div class="overflow-y-auto max-h-[calc(100vh-8rem)] hide-scrollbars">

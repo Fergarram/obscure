@@ -1,5 +1,7 @@
 <script>
 	import ExternalIcon from './svgs/External.svelte';
+	import MenuIcon from './svgs/Menu.svelte';
+
 	const shortcuts = [
 		{
 			text: 'Introduction',
@@ -39,5 +41,8 @@
 			</li>
 		{/each}
 	</ul>
+	<button class="lg:hidden">
+		<MenuIcon />
+	</button>
 	<!-- Toolbar -->
 </header>

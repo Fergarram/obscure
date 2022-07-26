@@ -17,7 +17,7 @@ Currently, Obscure is still a WIP and should not be used in any serious way. I d
 If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all those needed for the MVP which will allow me to push my research vault to obscurity.wiki.
 
 - [ ] Cover most of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
-	- [ ] Strike through with `~~x~~` ‼️
+	- [ ] ‼️ Strike through with `~~x~~`
 	- [ ] Highlighting with `==x==` or `::x::`
 	- [ ] Image resizing
 	- [ ] Automatic links (no syntax just URL)
@@ -25,14 +25,17 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] Footnotes
 	- [ ] Math
 	- [ ] Callouts
-- [ ] Handle empty files (show message when empty or simply ignore them - available in `obscure.config.js`) ‼️
-- [ ] Handle [embedded files](https://help.obsidian.md/How+to/Embed+files). ‼️
-- [ ] Fix all bugs (which I won't bother to write here). ‼️
-- [ ] Finish mobile styles. ‼️
-- [ ] Implement search. ‼️
+- [x] ‼️ Handle empty files - show a message
+	- [ ] Have the message be an option in `obscure.config.js`.
+- [ ] ‼️ Handle [embedded files](https://help.obsidian.md/How+to/Embed+files).
+- [ ] ‼️ Fix all bugs (which I won't bother to write here).
+- [ ] ‼️ Finish mobile styles.
+- [ ] ‼️ Implement search.
 - [ ] Add DRAFT prefix support.
-- [ ] Make Obsidian notes (`%%`) toggable by reader and have that be an option in `obscure.config.js`. ‼️
-- [ ] List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian. ‼️
+- [x] ‼️ Make Obsidian notes (`%%`) toggable by reader.
+	- [ ] Have that be an option in `obscure.config.js`.
+	- [ ] Parse notes content as markdown.
+- [ ] ‼️ List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
 - [ ] General clean up, formalize project setup and make it easy to configure.
 
 > NOTE: Know in advance that I will not implement a graph view.
