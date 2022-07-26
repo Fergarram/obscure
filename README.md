@@ -25,14 +25,22 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] Footnotes
 	- [ ] Math
 	- [ ] Callouts
-- [x] ‼️ Handle empty files - show a message
+- [ ] Handle empty files
+	- [x] ‼️ Show message instead of empty content.
 	- [ ] Have the message be an option in `obscure.config.js`.
-- [ ] ‼️ Handle [embedded files](https://help.obsidian.md/How+to/Embed+files).
+- [ ] Handle [embedded files](https://help.obsidian.md/How+to/Embed+files).
+	- [ ] Markdown files: md;
+	- [ ] ‼️ Image files: png, jpg, jpeg, gif, bmp, svg;
+	- [ ] Audio files: mp3, webm, wav, m4a, ogg, 3gp, flac;
+	- [ ] Video files: mp4, webm, ogv, mov, mkv;
+	- [ ] PDF files: pdf.
+		- [ ] Page index support
 - [ ] ‼️ Fix all bugs (which I won't bother to write here).
 - [ ] ‼️ Finish mobile styles.
 - [ ] ‼️ Implement search.
 - [ ] Add DRAFT prefix support.
-- [x] ‼️ Make Obsidian notes (`%%`) toggable by reader.
+- [ ] Obsidian notes (`%%`)
+	- [x] ‼️ Toggle for user to show/hide notes.
 	- [ ] Have that be an option in `obscure.config.js`.
 	- [ ] Parse notes content as markdown.
 - [ ] ‼️ List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
