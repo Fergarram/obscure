@@ -16,12 +16,12 @@ const yaml = require('yaml').parse;
 
 const remarkPlugins = [
   remarkFrontmatter,
-  [extractFrontmatter, { name: 'frontmatter', yaml: yaml }],
+  [ extractFrontmatter, { name: 'frontmatter', yaml: yaml } ],
   remarkSlug,
-  [remarkHtml, { sanitize: false }],
+  [ remarkHtml, { sanitize: false } ],
 ];
 
-const arrangeIntoTree = (paths, pluginConfig) => {
+const arrangeIntoTree = (paths, pluginConfig) =>  {
   let tree = [];
 
   const findWhere = (array, key, value) => {
@@ -187,12 +187,11 @@ const plugin = {
   config: {
     routes: [],
     remarkPlugins: [], // if you define your own, you must define remarkHtml another html parser or you'll have issues. Order matters here.
-    useElderJsPluginImages: true, // if you are using the @elderjs/plugin-images it will replace all markdown images with the {{picture src="" alt="" /}} shortcode.
-    useSyntaxHighlighting: false, // available themes: https://github.com/shikijs/shiki/blob/main/docs/themes.md - try dark-plus.
-    //theme is the only option available - for now.
-    useTableOfContents: false, // adds tocTree and tocHtml to each route's data object.
-    useGitHubFriendlyMarkdown: false, // adds support for GFM (autolink literals, strikethrough, tables, tasklists).
-    createRoutes: true, // creates routes in allRequests based on collected md files.
+    useElderJsPluginImages: true,
+    useSyntaxHighlighting: false,
+    useTableOfContents: false,
+    useGitHubFriendlyMarkdown: true,
+    createRoutes: true,
     contents: {},
   },
   shortcodes: [],
@@ -231,7 +230,7 @@ const plugin = {
       name: 'mdFilesToAllRequests',
       description:
         'Add collected md files to allRequests array using the frontmatter slug or filename as the slug. Users can modify the plugin.requests before this hook to change generated requests.',
-      priority: 50, // default
+      priority: 50,
       run: async ({ allRequests, plugin }) => {
         if (plugin.config.routes.length > 0 && plugin.config.createRoutes) {
           return {
@@ -315,7 +314,6 @@ const plugin = {
                 ...addToData,
                 html,
                 breadcrumbs,
-                fileTree: data.routeFileTree,
                 frontmatter,
               },
             };

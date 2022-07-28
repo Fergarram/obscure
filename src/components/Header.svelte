@@ -5,17 +5,11 @@
 
 	export let shortcuts;
 
-	let showMobileMenu = false;
-
-	const toggleMobileMenu = () => {
-		showMobileMenu = !showMobileMenu;
-		const sidebar = document.getElementById('sidebar-wrapper');
-		sidebar.style.display = showMobileMenu ? 'block' : '';
-	};
+	export let showMobileMenu;
 </script>
 
-<header class="dark:bg-neutral-800 bg-white pt-4 border-b border-neutral-200 dark:border-neutral-700 pb-4 flex items-center justify-between">
-	<button class="lg:hidden" on:click={() => toggleMobileMenu()}>
+<header class="sticky top-0 lg:static z-header dark:bg-neutral-800 bg-white pt-4 border-b border-neutral-200 dark:border-neutral-700 pb-4 flex items-center justify-between">
+	<button class="lg:hidden" on:click={() => showMobileMenu = !showMobileMenu}>
 		<MenuIcon />
 	</button>
 	<a href="/" class="font-semibold text-20 tracking-title block leading-100">

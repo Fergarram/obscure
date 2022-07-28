@@ -1,5 +1,5 @@
 require('dotenv').config();
-// const slugify = require('./src/plugins/obsidian-parser/utils/slugify');
+
 module.exports = {
 	origin: 'localhost:3000',
 	lang: 'en',
@@ -8,12 +8,15 @@ module.exports = {
 	rootDir: process.cwd(),
 	build: {},
 	prefix: '',
-	server: {},
+	server: {
+		cacheRequests: false,
+	},
 	props: {
-		hydration: 'hybrid',
-		compress: false,
+		hydration: 'html',
+		compress: true,
 	},
 	debug: {
+		reload: false,
 		stacks: false,
 		hooks: false,
 		performance: false,

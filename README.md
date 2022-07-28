@@ -17,12 +17,12 @@ Currently, Obscure is still a WIP and should not be used in any serious way. I d
 If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all those needed for the MVP which will allow me to push my research vault to obscurity.wiki.
 
 - [ ] Cover most of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
-	- [ ] ‼️ Strike through with `~~x~~` (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
+	- [x] ‼️ Strike through with `~~x~~` (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
 	- [ ] Highlighting with `==x==` or `::x::`
 	- [ ] Image resizing
-	- [ ] Automatic links (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
-	- [ ] Tables (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
-	- [ ] Footnotes (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
+	- [x] Automatic links (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
+	- [x] Tables (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
+	- [x] Footnotes (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
 	- [ ] Math
 	- [ ] Callouts
 - [ ] Handle empty files
@@ -36,7 +36,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] PDF files: pdf.
 		- [ ] Page index support
 - [ ] ‼️ Fix all bugs (which I won't bother to write here).
-- [ ] ‼️ Finish mobile styles.
+- [x] ‼️ Finish mobile styles.
 - [ ] ‼️ Implement search.
 - [ ] Add DRAFT prefix support.
 - [ ] Obsidian notes (`%%`)
