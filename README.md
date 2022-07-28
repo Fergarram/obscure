@@ -41,6 +41,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 - [ ] Add DRAFT prefix support.
 - [ ] Obsidian notes (`%%`)
 	- [x] ‼️ Toggle for user to show/hide notes.
+	- [ ] Save user decision on local storage.
 	- [ ] Have that be an option in `obscure.config.js`.
 	- [ ] Parse notes content as markdown.
 - [ ] ‼️ List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.

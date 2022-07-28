@@ -60,8 +60,9 @@ module.exports = {
 		zIndex: {
 			'above-content': '101',
 			'sticky-ui': '102',
-			'header': '103',
-			'modal': '104',
+			'sidebar': '103',
+			'header': '104',
+			'modal': '105',
 		},
 		extend: {
 			columns: {
@@ -106,9 +107,6 @@ module.exports = {
 				'40em': '40em',
 				'80rem': '80rem',
 				...theme('spacing')
-			}),
-			boxShadow: ({ theme }) => ({
-				'focus-border': `0 0 0 3px ${theme('colors.blue-300')}`,
 			}),
 			borderWidth: {
 				'3': '3px'

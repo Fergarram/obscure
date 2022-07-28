@@ -314,8 +314,8 @@ const plugin = {
                 ...data,
                 ...addToData,
                 html,
-                fileTree: data.routeFileTree,
                 breadcrumbs,
+                fileTree: data.routeFileTree,
                 frontmatter,
               },
             };

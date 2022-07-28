@@ -1,48 +1,41 @@
 <script>
 	import ExternalIcon from './svgs/External.svelte';
 	import MenuIcon from './svgs/Menu.svelte';
+	import SearchIcon from './svgs/Search.svelte';
 
-	const shortcuts = [
-		{
-			text: 'Introduction',
-			url: '/',
-			ext: false
-		},
-		{
-			text: 'Cognitive Research',
-			url: '/cognitive-research',
-			ext: false
-		},
-		{
-			text: 'OS Research',
-			url: '/os-research',
-			ext: false
-		},
-		{
-			text: 'Github',
-			url: 'https://github.com/Fergarram/research-vault',
-			ext: true
-		},
-	];
+	export let shortcuts;
+
+	let showMobileMenu = false;
+
+	const toggleMobileMenu = () => {
+		showMobileMenu = !showMobileMenu;
+		const sidebar = document.getElementById('sidebar-wrapper');
+		sidebar.style.display = showMobileMenu ? 'block' : '';
+	};
 </script>
-<header class="border-b border-neutral-200 dark:border-neutral-700 pb-5 flex items-center justify-between">
-	<a href="/" class="font-semibold text-20 lg:text-28 tracking-title block leading-100">
-		Obscurity Wiki
-	</a>
-	<ul class="hidden lg:flex items-center gap-8">
-		{#each shortcuts as item}
-			<li>
-				<a href={item.url} class="flex items-center gap-2 hover:underline" rel={item.ext ? 'noopener' : null}>
-					{item.text}
-					{#if item.ext}
-						<ExternalIcon size={20}/>
-					{/if}
-				</a>
-			</li>
-		{/each}
-	</ul>
-	<button class="lg:hidden">
+
+<header class="dark:bg-neutral-800 bg-white pt-4 border-b border-neutral-200 dark:border-neutral-700 pb-4 flex items-center justify-between">
+	<button class="lg:hidden" on:click={() => toggleMobileMenu()}>
 		<MenuIcon />
 	</button>
-	<!-- Toolbar -->
+	<a href="/" class="font-semibold text-20 tracking-title block leading-100">
+		Obscurity Wiki
+	</a>
+	<nav class="hidden lg:flex">
+		<ul class="flex items-center gap-8">
+			{#each shortcuts as item}
+				<li>
+					<a href={item.url} class="flex items-center gap-2 hover:underline" rel={item.ext ? 'noopener' : null}>
+						{item.text}
+						{#if item.ext}
+							<ExternalIcon size={20}/>
+						{/if}
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</nav>
+	<button class="lg:hidden">
+		<SearchIcon />
+	</button>
 </header>

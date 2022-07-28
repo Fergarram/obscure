@@ -12,12 +12,13 @@
 </script>
 
 <section
-	class:-mb-4={!commentsShown}
-	class="not-content bg-neutral-100 dark:bg-neutral-700/40 px-3 py-2 rounded-4 w-full flex items-center justify-between">
-	This document has hidden comments.
+	class="bg-neutral-100 dark:bg-neutral-700/40 px-3 py-2 rounded-4 w-full sm:flex gap-6 items-center justify-between">
+	<p class="not-content mb-2 sm:mb-0">
+		{commentsShown ? 'This document is currently showing hidden notes' : 'This document has hidden notes'}
+	</p>
 	<button
 		on:click={showComments}
 		class="text-blue-700 dark:text-blue-300 hover:underline">
-		{commentsShown ? 'Hide Comments' : 'Show Comments'}
+		{commentsShown ? 'Hide Notes' : 'Show Notes'}
 	</button>
 </section>

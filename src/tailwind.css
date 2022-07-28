@@ -17,6 +17,10 @@
 
 @layer utilities {
 
+  .overflow-unset {
+    overflow: unset;
+  }
+
   .word-break-word {
     word-break: break-word;
   }
@@ -98,7 +102,7 @@
   }
 
   .md-comment {
-    @apply hidden bg-neutral-100 dark:bg-neutral-700/20 px-2 py-1 rounded-4 border border-t-8 pt-2 border-neutral-200 dark:border-neutral-600 w-full overflow-scroll;
+    @apply hidden bg-amber-100 dark:bg-yellow-700/20 px-2 py-1 rounded-4 border border-t-8 pt-2 border-amber-200 dark:border-yellow-900 w-full overflow-scroll;
   }
 }
 
@@ -117,27 +121,27 @@
 }
 
 .article-content > h2:not(.not-content) {
-  @apply font-sans heading-prefix-2 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200;
+  @apply font-sans heading-prefix-2 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200 leading-115;
   font-size: 1.85em;
 }
 
 .article-content > h3:not(.not-content) {
-  @apply font-sans heading-prefix-3 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200;
+  @apply font-sans heading-prefix-3 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200 leading-115;
   font-size: 1.35em;
 }
 
 .article-content > h4:not(.not-content) {
-  @apply font-sans heading-prefix-4 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200;
+  @apply font-sans heading-prefix-4 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200 leading-115;
   font-size: 1.2em;
 }
 
 .article-content > h5:not(.not-content) {
-  @apply font-sans heading-prefix-5 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200;
+  @apply font-sans heading-prefix-5 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200 leading-115;
   font-size: 1.125em;
 }
 
 .article-content > h6:not(.not-content) {
-  @apply font-sans heading-prefix-6 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200;
+  @apply font-sans heading-prefix-6 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200 leading-115;
   font-size: 1em;
 }
 

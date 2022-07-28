@@ -9,6 +9,29 @@
 
 	export let data;
 
+	const shortcuts = [
+		{
+			text: 'Introduction',
+			url: '/',
+			ext: false
+		},
+		{
+			text: 'Cognitive Research',
+			url: '/cognitive-research',
+			ext: false
+		},
+		{
+			text: 'OS Research',
+			url: '/os-research',
+			ext: false
+		},
+		{
+			text: 'Github',
+			url: 'https://github.com/Fergarram/research-vault',
+			ext: true
+		},
+	];
+
 	const { frontmatter, breadcrumbs, tocTree, logo, fileTree } = data;
 	const contentHasH1 = tocTree &&  tocTree.length > 0 && tocTree.find(i => i.depth === 1) ? true : false;
 </script>
@@ -19,25 +42,27 @@
 	<link href="/" rel="canonical" />
 </svelte:head>
 
-<div class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 min-h-screen">
-	<div class="p-4 sm:p-8 md:p-10">
+<div id="obscure" class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 min-h-screen">
+	<div class="p-4 pt-0 sm:p-8 sm:pt-4 md:p-10 md:pt-6">
 	<!-- <div class="p-10 max-w-80rem mx-auto"> -->
-		<Header />
+		<div class="sticky top-0 lg:static z-header">
+			<Header hydrate-client={{ shortcuts }} />
+		</div>
 		<main class="lg:grid lg:grid-cols-auto-1fr">
-			<div class="sticky top-0 h-fit">
-				<Sidebar hydrate-client={{ fileTree }} />
+			<div id="sidebar-wrapper" class="hidden lg:block fixed lg:sticky h-screen lg:h-fit top-0 z-header lg:z-sidebar lg:pt-0 dark:bg-neutral-800 bg-white transition overflow-auto lg:overflow-unset hide-scrollbars border-r border-neutral-200 dark:border-neutral-700">
+				<Sidebar hydrate-client={{ fileTree, shortcuts }} />
 			</div>
 			<!-- <div class="py-6 px-10"> -->
 			<div class="py-4 pt-8 lg:py-6 lg:px-10 w-full max-w-[60em] mx-auto">
 				{#if breadcrumbs.length > 0}
 					<ul class="overflow-auto hide-scrollbars flex gap-2 text-14 mb-6 lg:mb-8">
-						<li class="opacity-60 hover:opacity-100">
+						<li class="opacity-80 dark:opacity-60 hover:opacity-100">
 							<a href="/">
 								<HomeIcon size={20}/>
 							</a>
 						</li>
 						{#each breadcrumbs as item}
-							<li class="flex items-center gap-2 opacity-60 hover:opacity-100">
+							<li class="flex items-center gap-2 opacity-80 dark:opacity-60 hover:opacity-100">
 								<ArrowRightIcon size={16} classes="mt-px"/>
 								<a href={item.url} class="whitespace-nowrap">
 									{item.name}
