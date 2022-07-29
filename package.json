@@ -10,7 +10,7 @@
 		"build:html": "node ./src/build.js",
 		"dev": "concurrently \"npm run esbuild\" \"npm run tailwind:dev\"",
 		"serve": "node ./src/cleanPublic.js && npm run build:rollup && NODE_ENV=production node ./src/server.js",
-		"esbuild": "node esbuild.js",
+		"esbuild": "NODE_ENV=development node esbuild.js",
 		"tailwind": "tailwindcss -i ./src/tailwind.css -o ./public/styles.css --minify --postcss",
 		"tailwind:dev": "tailwindcss -i ./src/tailwind.css -o ./public/styles.css --watch --postcss"
 	},

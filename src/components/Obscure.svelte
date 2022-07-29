@@ -1,10 +1,13 @@
 <script>
+	import { onMount } from 'svelte';
 	import TableOfContents from './TableOfContents.svelte';
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
 	import Sidebar from './Sidebar.svelte';
+	import Modal from './Modal.svelte';
 	import CommentsControl from './CommentsControl.svelte';
 	import ArrowRightIcon from './svgs/ArrowRight.svelte';
+	import SearchIcon from './svgs/Search.svelte';
 	import HomeIcon from './svgs/Home.svelte';
 
 	export let data, shortcuts;
@@ -16,6 +19,82 @@
 		: false;
 
 	let showMobileMenu = false;
+	let showSearchDialog = false;
+	let keysPressed = [];
+	let searchQuery = '';
+	let searchFocused = false;
+	let searchInputEl = null;
+	let lastPos = 0;
+	let mounted = false;
+
+	const lock = (mobileOnly = false) => {
+		if (document.body.style.position === 'fixed') return;
+
+		lastPos = window.scrollY;
+		let bodyWidth = document.body.getClientRects()[0].width;
+		let widthDiff = window.innerWidth - bodyWidth;
+
+		document.body.style.position = 'fixed';
+		document.body.style.overflow = 'hidden';
+		document.body.style.top = `-${lastPos}px`;
+		if (mobileOnly) document.body.classList.add('mobile-only-scroll-lock');
+
+		if (widthDiff !== 0) {
+			document.body.style.width = `${bodyWidth}px`;
+			document.body.classList.add('scroll-lock');
+		} else {
+			document.body.style.width = '100%';
+		}
+	};
+
+	const unlock = (mobileOnly = false) => {
+		document.body.classList.remove('scroll-lock');
+		if (mobileOnly) document.body.classList.remove('mobile-only-scroll-lock');
+		document.body.style.removeProperty('position');
+		document.body.style.removeProperty('overflow');
+		document.body.style.removeProperty('width');
+		document.body.style.removeProperty('top');
+		window.scroll(0, lastPos);
+	};
+
+	const handleModalClose = () => {
+		showSearchDialog = false;
+		unlock();
+	};
+
+	const handleModalOpen = () => {
+		lock();
+		if (searchInputEl) searchInputEl.focus();
+	};
+
+	const onKeyup = e => {
+		keysPressed = [];
+	};
+
+	const onKeydown = e => {
+		keysPressed[e.key] = true;
+
+		if (keysPressed['Escape']) showMobileMenu = false;
+
+		if (
+			(keysPressed['Meta'] && keysPressed['o']) ||
+			(keysPressed['Control'] && keysPressed['o'])
+		) {
+			if (showMobileMenu) return;
+			showSearchDialog = true;
+		}
+	};
+
+	onMount(() => {
+		mounted = true;
+		document.addEventListener('keyup', onKeyup);
+		document.addEventListener('keydown', onKeydown);
+	});
+
+	$: if (mounted) {
+		if (showMobileMenu) lock(true);
+		else if (!showMobileMenu) unlock(true);
+	}
 </script>
 
 <svelte:head>
@@ -27,12 +106,12 @@
 <div id="obscure" class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 min-h-screen">
 	<div class="p-4 pt-0 sm:p-8 sm:pt-4 md:p-10 md:pt-6">
 		<!-- Header -->
-		<Header {shortcuts} bind:showMobileMenu />
+		<Header {shortcuts} bind:showMobileMenu bind:showSearchDialog />
 
 		<div class="lg:grid lg:grid-cols-auto-1fr">
 
 			<!-- Sidebar -->
-			<Sidebar fileTree={routeFileTree} {shortcuts} bind:showMobileMenu />
+			<Sidebar fileTree={routeFileTree} {shortcuts} bind:showMobileMenu bind:showSearchDialog />
 
 			<!-- Main -->
 			<main id="main-content" class="py-4 pt-8 lg:py-6 lg:px-10 w-full max-w-[60em] mx-auto">
@@ -81,6 +160,34 @@
 						{/if}
 					</div>
 				</article>
+				{#if showSearchDialog}
+					<Modal
+						id="file-search"
+						ariaLabel="Search documents"
+						autoPlaceModal={false}
+						wrapperClasses="p-4 focus:outline-none"
+						modalClasses="max-w-40em mx-auto dark:bg-neutral-800 bg-neutral-200 rounded-8 top-2 md:top-12 lg:top-1/4"
+						on:modal-close={handleModalClose}
+						on:modal-open={handleModalOpen}>
+						<div class="flex items-center gap-2">
+							<SearchIcon />
+							<label for="file-search-input" class="block relative">
+								<span class="absolute pointer-events-none opacity-60" class:hidden={searchQuery}>
+									Search files in vault...
+								</span>
+								<input
+									bind:this={searchInputEl}
+									id="file-search-input"
+									type="text"
+									class="bg-transparent focus:outline-none"
+									bind:value={searchQuery}
+									on:focus={() => searchFocused = true}
+									on:blur={() => searchFocused = false}
+								/>
+							</label>
+						</div>
+					</Modal>
+				{/if}
 			</main>
 		</div>
 

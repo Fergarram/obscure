@@ -235,3 +235,19 @@
 .article-content > table:not(.not-content) td {
   @apply p-2;
 }
+
+.mobile-only-scroll-lock {
+  @apply lg:!static lg:!overflow-unset lg:!top-0 lg:!w-full;
+}
+
+.scroll-lock::before {
+  content: '';
+  position: fixed;
+  display: block;
+  width: 16px;
+  right: 0;
+  top: 0;
+  height: 100%;
+  z-index: -1;
+  @apply bg-gray-300;
+}

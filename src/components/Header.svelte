@@ -3,9 +3,7 @@
 	import MenuIcon from './svgs/Menu.svelte';
 	import SearchIcon from './svgs/Search.svelte';
 
-	export let shortcuts;
-
-	export let showMobileMenu;
+	export let shortcuts, showMobileMenu, showSearchDialog;
 </script>
 
 <header class="sticky top-0 lg:static z-header dark:bg-neutral-800 bg-white pt-4 border-b border-neutral-200 dark:border-neutral-700 pb-4 flex items-center justify-between">
@@ -29,7 +27,7 @@
 			{/each}
 		</ul>
 	</nav>
-	<button class="lg:hidden">
+	<button class="lg:hidden" on:click={() => showSearchDialog = !showSearchDialog}>
 		<SearchIcon />
 	</button>
 </header>

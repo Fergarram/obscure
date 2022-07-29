@@ -3,9 +3,10 @@
 	import { onMount } from 'svelte';
 
 	export let id;
-	export let wrapperClasses = '';
-	export let modalClasses = 'max-w-40em mx-auto bg-white';
-	export let baseClasses = 'overflow-auto p-5 bg-black/30';
+	export let wrapperClasses = 'p-4';
+	export let modalClasses = 'max-w-40em mx-auto dark:bg-neutral-800 bg-neutral-200 rounded-8';
+	export let baseClasses = 'overflow-auto p-5';
+	export let backdropClasses = 'backdrop-blur-sm bg-black/60';
 	export let autoPlaceModal = true;
 	export let ariaLabel = null;
 
@@ -15,13 +16,14 @@
 	let currentFocusedEl = null;
 	let firstEl = null;
 	let lastEl = null;
+	let lastPos = 0;
 
 	const dispatch = createEventDispatcher();
 
 	const lock = () => {
 		if (document.body.style.position === 'fixed') return;
 
-		let lastPos = window.scrollY;
+		lastPos = window.scrollY;
 		let bodyWidth = document.body.getClientRects()[0].width;
 		let widthDiff = window.innerWidth - bodyWidth;
 
@@ -46,11 +48,10 @@
 		window.scroll(0, lastPos);
 	};
 
-	const handleClose = () => {
+	const closeModal = () => {
 		keysPressed = [];
 		document.removeEventListener('keydown', onKeydown);
 		document.removeEventListener('keyup', onKeyup);
-		unlock();
 
 		dispatch('modal-close');
 	};
@@ -63,7 +64,7 @@
 		keysPressed[e.key] = true;
 
 		if (keysPressed['Escape']) {
-			handleClose();
+			closeModal();
 		}
 
 		if (currentFocusedEl && currentFocusedEl.dataset.lastFocusable) {
@@ -104,13 +105,16 @@
 		document.addEventListener('keyup', onKeyup);
 		document.addEventListener('keydown', onKeydown);
 
-		lock();
-
 		dispatch('modal-open');
 	});
 </script>
 
 <div class="fixed z-modal top-0 left-0 w-full h-full {baseClasses}">
+	<div
+		aria-hidden="true"
+		on:click={closeModal}
+		class="absolute top-0 left-0 w-full h-full {backdropClasses}">
+	</div>
 	<div
 		{id}
 		bind:this={modalEl}

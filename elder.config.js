@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const isDev = process.env.NODE_ENV === 'development';
+
 module.exports = {
 	origin: 'localhost:3000',
 	lang: 'en',
@@ -12,7 +14,7 @@ module.exports = {
 		cacheRequests: false,
 	},
 	props: {
-		hydration: 'html',
+		hydration: isDev ? 'html' : 'hybrid',
 		compress: true,
 	},
 	debug: {
