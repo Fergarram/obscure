@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import Fuse from 'fuse.js';
 	import TableOfContents from './TableOfContents.svelte';
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
@@ -12,7 +13,12 @@
 
 	export let data, shortcuts;
 
-	const { frontmatter, breadcrumbs, tocTree, logo, routeFileTree } = data;
+	const { frontmatter, breadcrumbs, tocTree, logo, routeFileTree, flatFileList } = data;
+	const fuse = new Fuse(flatFileList, {
+		includeScore: true,
+		includeMatches: true,
+		keys: [ 'name', 'path' ]
+	});
 	const contentHasH1 =
 		tocTree && tocTree.length > 0 && tocTree.find(i => i.depth === 1)
 		? true
@@ -26,6 +32,8 @@
 	let searchInputEl = null;
 	let lastPos = 0;
 	let mounted = false;
+	let results = [];
+	let selectedResultItem = '';
 
 	const lock = (mobileOnly = false) => {
 		if (document.body.style.position === 'fixed') return;
@@ -59,6 +67,7 @@
 
 	const handleModalClose = () => {
 		showSearchDialog = false;
+		searchQuery = '';
 		unlock();
 	};
 
@@ -67,11 +76,11 @@
 		if (searchInputEl) searchInputEl.focus();
 	};
 
-	const onKeyup = e => {
+	const onKeyup = (e) => {
 		keysPressed = [];
 	};
 
-	const onKeydown = e => {
+	const onKeydown = (e) => {
 		keysPressed[e.key] = true;
 
 		if (keysPressed['Escape']) showMobileMenu = false;
@@ -85,6 +94,42 @@
 		}
 	};
 
+	const handleInputKeydown = (e) => {
+		if (e.key === 'Enter') {
+			location.href = `${location.origin}/${selectedResultItem}`;
+		}
+
+		if (e.key === 'ArrowDown') {
+			e.preventDefault();
+			if (results.length > 0) {
+				// Focus on the element below the currently selected item
+				const el = document.getElementById(`result-${selectedResultItem}`);
+				const nextElParent = el.parentElement.nextElementSibling;
+				if (nextElParent) {
+					const url = nextElParent.firstElementChild.dataset.url;
+					if (url) selectedResultItem = url;
+					// @TODO: Make scroll view follow the selected item without loosing focus on text input
+					// nextElParent.firstElementChild.focus();
+				}
+			}
+		}
+
+		if (e.key === 'ArrowUp') {
+			e.preventDefault();
+			if (results.length > 0) {
+				// Focus on the element above the currently selected item
+				const el = document.getElementById(`result-${selectedResultItem}`);
+				const previousElParent = el.parentElement.previousElementSibling;
+				if (previousElParent) {
+					const url = previousElParent.firstElementChild.dataset.url;
+					if (url) selectedResultItem = url;
+					// @TODO: Make scroll view follow the selected item without loosing focus on text input
+					// previousElParent.firstElementChild.focus();
+				}
+			}
+		}
+	};
+
 	onMount(() => {
 		mounted = true;
 		document.addEventListener('keyup', onKeyup);
@@ -95,6 +140,12 @@
 		if (showMobileMenu) lock(true);
 		else if (!showMobileMenu) unlock(true);
 	}
+
+	$: {
+		results = fuse.search(searchQuery);
+		if (results.length > 0) selectedResultItem = results[0].item.url;
+		// console.log(results);
+	};
 </script>
 
 <svelte:head>
@@ -169,23 +220,42 @@
 						modalClasses="max-w-40em mx-auto dark:bg-neutral-800 bg-neutral-200 rounded-8 top-2 md:top-12 lg:top-1/4"
 						on:modal-close={handleModalClose}
 						on:modal-open={handleModalOpen}>
-						<div class="flex items-center gap-2">
+						<div class="flex items-center gap-2 max-w-full w-full">
 							<SearchIcon />
-							<label for="file-search-input" class="block relative">
+							<label for="file-search-input" class="block relative max-w-full w-full">
 								<span class="absolute pointer-events-none opacity-60" class:hidden={searchQuery}>
 									Search files in vault...
 								</span>
 								<input
-									bind:this={searchInputEl}
-									id="file-search-input"
 									type="text"
-									class="bg-transparent focus:outline-none"
+									id="file-search-input"
+									bind:this={searchInputEl}
 									bind:value={searchQuery}
+									class="bg-transparent focus:outline-none max-w-full w-full"
+									on:keydown={handleInputKeydown}
 									on:focus={() => searchFocused = true}
 									on:blur={() => searchFocused = false}
 								/>
 							</label>
 						</div>
+						{#if results.length > 0}
+							<ul aria-label="search results" class="max-h-[calc(100vh_-_7.5rem)] lg:max-h-[40vh] overflow-auto h-fit mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-600 w-full">
+								{#each results as result}
+									<li class="text-16 w-full">
+										<a
+											id="result-{result.item.url}"
+											data-url={result.item.url}
+											href="/{result.item.url}"
+											class="grid gap-1 w-full rounded-8 p-2 {selectedResultItem === result.item.url ? 'dark:bg-neutral-700/50 bg-neutral-100' : ''}">
+											{result.item.name}
+												<p class="text-12 opacity-60">
+												{result.item.path}
+											</p>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						{/if}
 					</Modal>
 				{/if}
 			</main>

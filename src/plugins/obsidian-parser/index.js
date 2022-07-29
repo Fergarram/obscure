@@ -145,6 +145,21 @@ const plugin = {
           paths.push(parts);
         }
 
+        plugin.flatFileList = paths.map(filepath => {
+          const finalPath = filepath.map(p => slugify(p.replace('.md', '')).replace(/^-/g, '')).join('/');
+          const finalParts = finalPath.split('/');
+
+          if (finalParts[finalParts.length - 2] === finalParts[finalParts.length - 1]) {
+            finalParts.splice(finalParts.length - 2, 1);
+          }
+
+          return {
+            name: filepath[filepath.length - 1].replace('.md', ''),
+            path: filepath.slice(0, -1).join(' / '),
+            url: finalParts.join('/'),
+          }
+        });
+
         plugin.fileTree = arrangeIntoTree(paths, plugin.config);
 
         // if there is a date in frontmatter, sort them by most recent
@@ -220,7 +235,12 @@ const plugin = {
       run: async ({ data, plugin }) => {
         if (plugin.config.routes.length > 0) {
           return {
-            data: { ...data, markdown: plugin.markdown, routeFileTree: plugin.fileTree },
+            data: {
+              ...data,
+              markdown: plugin.markdown,
+              routeFileTree: plugin.fileTree,
+              flatFileList: plugin.flatFileList
+            },
           };
         }
       },
