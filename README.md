@@ -24,7 +24,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [x] Tables (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
 	- [x] 🗳 Footnotes (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
 	- [ ] Math
-	- [ ] Callouts
+	- [ ] 🗳 Callouts
 - [ ] Handle empty files
 	- [x] ‼️ Show message instead of empty content.
 	- [ ] Have the message be an option in `obscure.config.js`.
