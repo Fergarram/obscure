@@ -34,6 +34,7 @@
 	let mounted = false;
 	let results = [];
 	let selectedResultItem = '';
+	let resultsEl = null;
 
 	const lock = (mobileOnly = false) => {
 		if (document.body.style.position === 'fixed') return;
@@ -104,12 +105,16 @@
 			if (results.length > 0) {
 				// Focus on the element below the currently selected item
 				const el = document.getElementById(`result-${selectedResultItem}`);
-				const nextElParent = el.parentElement.nextElementSibling;
-				if (nextElParent) {
-					const url = nextElParent.firstElementChild.dataset.url;
+				const nextEl = el.nextElementSibling;
+				if (nextEl) {
+					const url = nextEl.firstElementChild.dataset.url;
 					if (url) selectedResultItem = url;
-					// @TODO: Make scroll view follow the selected item without loosing focus on text input
-					// nextElParent.firstElementChild.focus();
+					const topSpacing = 12; // @TODO: get from resultsEl
+					const pos = (nextEl.offsetTop + nextEl.offsetHeight) - topSpacing - resultsEl.scrollTop;
+					if (pos > resultsEl.offsetHeight) {
+						const diff = pos - resultsEl.offsetHeight;
+						resultsEl.scroll(0, resultsEl.scrollTop + diff + 15);
+					}
 				}
 			}
 		}
@@ -119,12 +124,16 @@
 			if (results.length > 0) {
 				// Focus on the element above the currently selected item
 				const el = document.getElementById(`result-${selectedResultItem}`);
-				const previousElParent = el.parentElement.previousElementSibling;
-				if (previousElParent) {
-					const url = previousElParent.firstElementChild.dataset.url;
+				const previousEl = el.previousElementSibling;
+				if (previousEl) {
+					const url = previousEl.firstElementChild.dataset.url;
 					if (url) selectedResultItem = url;
-					// @TODO: Make scroll view follow the selected item without loosing focus on text input
-					// previousElParent.firstElementChild.focus();
+					const topSpacing = 12; // @TODO: get from resultsEl
+					const pos = previousEl.offsetTop - topSpacing - resultsEl.scrollTop;
+					if (pos < 0) {
+						const diff = 0 - pos;
+						resultsEl.scroll(0, resultsEl.scrollTop - (diff - 5));
+					}
 				}
 			}
 		}
@@ -217,7 +226,7 @@
 						ariaLabel="Search documents"
 						autoPlaceModal={false}
 						wrapperClasses="p-4 focus:outline-none"
-						modalClasses="max-w-40em mx-auto dark:bg-neutral-800 bg-neutral-200 rounded-8 top-2 md:top-12 lg:top-1/4"
+						modalClasses="max-w-40em mx-auto dark:bg-neutral-800 bg-neutral-200 rounded-8 top-2 md:top-1/4"
 						on:modal-close={handleModalClose}
 						on:modal-open={handleModalOpen}>
 						<div class="flex items-center gap-2 max-w-full w-full">
@@ -239,13 +248,16 @@
 							</label>
 						</div>
 						{#if results.length > 0}
-							<ul aria-label="search results" class="max-h-[calc(100vh_-_7.5rem)] lg:max-h-[40vh] overflow-auto h-fit mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-600 w-full">
+							<ul
+								bind:this={resultsEl}
+								aria-label="search results"
+								class="relative max-h-[calc(100vh_-_7.5rem)] md:max-h-[40vh] overflow-auto h-fit mt-3 pt-3 border-t border-neutral-300 dark:border-neutral-600 w-full">
 								{#each results as result}
-									<li class="text-16 w-full">
+									<li class="text-16 w-full" id="result-{result.item.url}">
 										<a
-											id="result-{result.item.url}"
 											data-url={result.item.url}
 											href="/{result.item.url}"
+											on:mouseover={() => selectedResultItem = result.item.url}
 											class="grid gap-1 w-full rounded-8 p-2 {selectedResultItem === result.item.url ? 'dark:bg-neutral-700/50 bg-neutral-100' : ''}">
 											{result.item.name}
 												<p class="text-12 opacity-60">

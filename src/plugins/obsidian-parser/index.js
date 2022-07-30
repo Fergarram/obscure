@@ -308,6 +308,10 @@ const plugin = {
             if (frontmatter && !frontmatter.title) {
               frontmatter.title = filename;
             }
+
+            // @TODO: Check for embeded files here...
+            //        Convert them to shortcodes maybe?
+            //        That always ends up weird...
             
             let internalLinks = html.match(/\[\[([^]*?)\]\]/g);
             // @TODO: do something about the internal links that lead to not yet created files.

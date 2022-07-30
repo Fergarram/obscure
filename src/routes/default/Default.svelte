@@ -5,7 +5,7 @@
 
 	const shortcuts = [
 		{
-			text: 'Introduction',
+			text: 'Start Here',
 			url: '/',
 			ext: false
 		},
