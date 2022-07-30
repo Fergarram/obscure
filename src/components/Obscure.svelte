@@ -158,7 +158,7 @@
 </script>
 
 <svelte:head>
-	<title>{frontmatter.title}</title>
+	<title>{frontmatter && frontmatter.title ? frontmatter.title : 'NO TITLE!'}</title>
 	<meta name="description" content="test" />
 	<link href="/" rel="canonical" />
 </svelte:head>
@@ -177,7 +177,7 @@
 			<main id="main-content" class="py-4 pt-8 lg:py-6 lg:px-10 w-full max-w-[60em] mx-auto">
 
 				<!-- Breadcrumbs -->
-				{#if breadcrumbs.length > 0}
+				{#if breadcrumbs && breadcrumbs.length > 0}
 					<ul class="overflow-auto hide-scrollbars flex gap-2 text-14 mb-6 lg:mb-8">
 						<li class="opacity-80 dark:opacity-60 hover:opacity-100">
 							<a href="/">

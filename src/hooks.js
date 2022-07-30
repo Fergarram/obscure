@@ -9,6 +9,7 @@ const hooks = [
 		name: 'copyAssetsToPublic',
 		description: 'Copies ./assets/ to the "distDir" defined in the elder.config.js. This function helps support the live reload process.',
 		run: ({ settings }) => {
+			// Copy assets from 'assets' to 'public'
 			glob.sync(path.resolve(settings.rootDir, './assets/**/*')).forEach((file) => {
 				const parsed = path.parse(file);
 				if (parsed.ext && parsed.ext.length > 0) {

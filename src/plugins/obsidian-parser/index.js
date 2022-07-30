@@ -1,8 +1,11 @@
 const glob = require('glob');
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs'); ???
+const fs = require('fs-extra');
+const os = require('os');
 const remarkHtml = require('remark-html');
 const remarkSlug = require('remark-slug');
+
 
 const { decode, encode } = require('html-entities');
 const { findEmoji, slugify } = require('./utils/utils');
@@ -133,6 +136,7 @@ const plugin = {
           const markdown = await createMarkdownStore({
             pluginConfig: plugin.config,
             root: mdsInRoute,
+            route,
             file,
             parser: plugin.markdownParser,
             useImagePlugin: plugin.settings.plugins['@elderjs/plugin-images'] && plugin.config.useElderJsPluginImages,
@@ -202,7 +206,7 @@ const plugin = {
   config: {
     routes: [],
     remarkPlugins: [], // if you define your own, you must define remarkHtml another html parser or you'll have issues. Order matters here.
-    useElderJsPluginImages: true,
+    useElderJsPluginImages: false,
     useSyntaxHighlighting: false,
     useTableOfContents: false,
     useGitHubFriendlyMarkdown: true,
@@ -224,6 +228,28 @@ const plugin = {
             markdownParser: plugin.markdownParser,
           },
         };
+      },
+    },
+
+    {
+      hook: 'bootstrap',
+      name: 'copyVaultMediaToPublic',
+      description: 'Copy media from "media" folder in vault to "public" folder.',
+      priority: 99,
+      run: ({ settings, plugin }) => {
+        plugin.config.routes.forEach(route => {
+          const mediaPath = `src/routes/${route}/vault${plugin.config.mediaFolder}`
+          glob.sync(path.resolve(settings.rootDir, `./${mediaPath}/**/*`)).forEach((file) => {
+            const parsed = path.parse(file);
+            if (parsed.ext && parsed.ext.length > 0) {
+              let relativeToAssetsFolder = path.relative(path.join(settings.rootDir, `./${mediaPath}`), file);
+              relativeToAssetsFolder = slugify(relativeToAssetsFolder).replace(/^-/g, '')
+              const outputPath = path.resolve(`${settings.distDir}/images/${route}`, relativeToAssetsFolder);
+              fs.ensureDirSync(path.parse(outputPath).dir);
+              fs.outputFileSync(outputPath, fs.readFileSync(file));
+            }
+          });
+        });
       },
     },
 
@@ -309,9 +335,25 @@ const plugin = {
               frontmatter.title = filename;
             }
 
-            // @TODO: Check for embeded files here...
-            //        Convert them to shortcodes maybe?
-            //        That always ends up weird...
+            const ObsidianEmbedFile = /!\[\[([^]*?)\]\]/g;
+            const embedMatch = ObsidianEmbedFile.exec(html);
+            if (embedMatch) {
+              const [ embedCode, embedFilename ] = embedMatch;
+              if (
+                embedFilename.includes('.png') ||
+                embedFilename.includes('.jpg') ||
+                embedFilename.includes('.jpeg') ||
+                embedFilename.includes('.gif') ||
+                embedFilename.includes('.bmp') ||
+                embedFilename.includes('.svg')
+              ) {
+                let imageName = embedFilename
+                  .replace('.png', '').replace('.jpg', '').replace('.jpeg', '')
+                  .replace('.gif', '').replace('.bmp', '').replace('.svg', '');
+                const imageUrl = slugify(embedFilename).replace(/^-/g, '');
+                html = html.replace(embedCode, `<img alt="${imageName}" src="/images/${request.route}/${imageUrl}" />`);
+              }
+            }
             
             let internalLinks = html.match(/\[\[([^]*?)\]\]/g);
             // @TODO: do something about the internal links that lead to not yet created files.

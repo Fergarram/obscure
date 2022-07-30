@@ -14,7 +14,7 @@ Currently, Obscure is still a WIP and should not be used in any serious way. I d
 
 ## Roadmap to V1
 
-If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all those needed for the MVP which will allow me to push my research vault to obscurity.wiki.
+If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all the must features or all the features that the MVP needs which will allow me to push my research vault to obscurity.wiki; and I'm using "🗳" for all the needed features for [nuestro.voto](//fernando.works/projects/nuestro-voto).
 
 - [ ] Cover most of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
 	- [x] ‼️ Strike through with `~~x~~` (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
@@ -22,7 +22,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] Image resizing
 	- [x] Automatic links (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
 	- [x] Tables (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
-	- [x] Footnotes (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
+	- [x] 🗳 Footnotes (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
 	- [ ] Math
 	- [ ] Callouts
 - [ ] Handle empty files
@@ -30,22 +30,25 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] Have the message be an option in `obscure.config.js`.
 - [ ] Handle [embedded files](https://help.obsidian.md/How+to/Embed+files).
 	- [ ] Markdown files: md;
-	- [ ] ‼️ Image files: png, jpg, jpeg, gif, bmp, svg;
+	- [ ] Image files: png, jpg, jpeg, gif, bmp, svg;
+		- [x] ‼️ Render img tag
+		- [ ] 🗳 Use [Elder.js Images Plugin](https://github.com/Elderjs/plugins/tree/master/packages/images) to process embedded images.
 	- [ ] Audio files: mp3, webm, wav, m4a, ogg, 3gp, flac;
-	- [ ] Video files: mp4, webm, ogv, mov, mkv;
-	- [ ] PDF files: pdf.
-		- [ ] Page index support
+	- [ ] 🗳 Video files: mp4, webm, ogv, mov, mkv;
+	- [ ] 🗳 PDF files: pdf.
+		- [ ] 🗳 Page index support
 - [ ] ‼️ Fix all bugs/fixme/todos (which I won't bother to write here).
 - [x] ‼️ Finish mobile styles.
 - [x] ‼️ Implement search.
-- [ ] Add DRAFT prefix support.
+- [ ] 🗳 Add DRAFT prefix support.
 - [ ] Obsidian notes (`%%`)
 	- [x] ‼️ Toggle for user to show/hide notes.
 	- [ ] Save user decision on local storage.
-	- [ ] Have that be an option in `obscure.config.js`.
-	- [ ] Parse notes content as markdown.
+	- [ ] 🗳 Have that be an option in `obscure.config.js`.
+	- [ ] 🗳 Parse notes content as markdown.
 - [ ] ‼️ List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
-- [ ] General clean up, formalize project setup and make it easy to configure.
+- [ ] 🗳 General clean up, formalize project setup and make it easy to configure.
+- [ ] 🗳 Generate tag pages which list all the files using the tag.
 
 > NOTE: Know in advance that I will not implement a graph view.
 

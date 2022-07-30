@@ -3,11 +3,35 @@ const path = require('path');
 const { decode, encode } = require('html-entities');
 const { slugify, findEmoji } = require('./utils');
 
-function compileImage(md, openPattern = '{{', closePattern = '}}') {
-  // replace md images if image plugin is being used
-  const MDImgRegex = /!\[([A-Za-z-_ \d]*)\]\(([^)]*)\)/gm;
-  let match;
+function compileImage(route, md, openPattern = '{{', closePattern = '}}') {
   const result = [];
+
+  const ObsidianEmbedFile = /!\[\[([^]*?)\]\]/g;
+  const embedMatch = ObsidianEmbedFile.exec(md);
+  if (embedMatch) {
+    const [ embedCode, embedFilename ] = embedMatch;
+    console.log(embedCode, embedFilename);
+
+    if (
+      embedFilename.includes('.png') ||
+      embedFilename.includes('.jpg') ||
+      embedFilename.includes('.jpeg') ||
+      embedFilename.includes('.gif') ||
+      embedFilename.includes('.bmp') ||
+      embedFilename.includes('.svg')
+    ) {
+      let imageName = embedFilename
+        .replace('.png', '').replace('.jpg', '').replace('.jpeg', '')
+        .replace('.gif', '').replace('.bmp', '').replace('.svg', '');
+      console.log(imageName);
+      const imageUrl = slugify(embedFilename).replace(/^-/g, '');
+      md = md.replace(embedCode, `<div class="md-img">${openPattern}picture alt="${imageName}" src="/images/${route}/${embedFilename}" /${closePattern}</div>`);
+    }
+  }
+  
+  let match;
+  const MDImgRegex = /!\[([A-Za-z-_ \d]*)\]\(([^)]*)\)/gm;
+
   let lastIndex = 0;
   while ((match = MDImgRegex.exec(md)) !== null) {
     const [, alt, src] = match;
@@ -17,6 +41,7 @@ function compileImage(md, openPattern = '{{', closePattern = '}}') {
     );
     lastIndex = MDImgRegex.lastIndex;
   }
+
   result.push(md.slice(lastIndex));
   return result.join('');
 }
@@ -24,6 +49,7 @@ function compileImage(md, openPattern = '{{', closePattern = '}}') {
 async function createMarkdownStore({
   pluginConfig,
   root,
+  route,
   file,
   slug,
   shortcodes: { openPattern, closePattern } = {},
@@ -102,7 +128,7 @@ async function createMarkdownStore({
     if (ret.html != null) return;
 
     if (useImagePlugin) {
-      source = compileImage(source, openPattern, closePattern);
+      source = compileImage(route, source, openPattern, closePattern);
     }
 
     const result = await parser.process(source);
