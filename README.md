@@ -37,7 +37,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] 🗳 Video files: mp4, webm, ogv, mov, mkv;
 	- [ ] 🗳 PDF files: pdf.
 		- [ ] 🗳 Page index support
-- [ ] ‼️ Fix all bugs/fixme/todos (which I won't bother to write here).
+- [ ] ‼️ Fix all critical bugs and @FIXME comments.
 - [x] ‼️ Finish mobile styles.
 - [x] ‼️ Implement search.
 - [ ] Show backlinks.
