@@ -94,8 +94,9 @@ async function createMarkdownStore({
     let parts = relativePath.replace(`${pluginConfig.vault}/`, '').replace('.md', '').split('/');
     parts = parts.map(s => slugify(s).replace(/^-/g, ''));
 
+
+    // @FIXME: Check in config what's the convention for index files
     // Check if last two items are the same (ignoring the emoji)
-    // @TODO: Check in config what's the convention
     let parent = parts[parts.length - 2];
     let name = parts[parts.length - 1];
 

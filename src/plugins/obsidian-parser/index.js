@@ -62,7 +62,7 @@ const arrangeIntoTree = (paths, pluginConfig) =>  {
             const newPart = {
                 name: part.replace('.md', ''),
                 slug,
-                // @TODO: Make sure to place the path relative to the route permalink.
+                // @FIXME: Make sure to place the path relative to the route permalink.
                 path: finalParts.join('/'),
                 children: [],
             }
@@ -308,7 +308,7 @@ const plugin = {
             let { filename, html, frontmatter, data: addToData, slug } = markdown;
             let breadcrumbs = [];
 
-            // @TODO: Make sure that renamed slugs like "cognitive-research/cognitive-research" get propper breadcrumbs.
+            // @FIXME: Make sure that renamed slugs like "cognitive-research/cognitive-research" get propper breadcrumbs.
             if (slug.split('/').length > 1 && slug !== '/') {
               const urlParts = slug.split('/');
 
@@ -356,8 +356,7 @@ const plugin = {
             }
             
             let internalLinks = html.match(/\[\[([^]*?)\]\]/g);
-            // @TODO: do something about the internal links that lead to not yet created files.
-            //        And about repeated filenames usually differentiated by their parent folders...
+            // @FIXME: Do something about repeated filenames usually differentiated by their parent folders...
             if (internalLinks && internalLinks.length > 0) {
               internalLinks.forEach(link => {
                 let name = decode(link.replace('[[', '').replace(']]', ''));
@@ -366,7 +365,7 @@ const plugin = {
                   const emoji = findEmoji(name);
                   // @IMPROVE: This emoji condition seems finicky
                   if (emoji && emoji[0] && name[2] === ' ') name = name.replace(`${emoji[0]} `, `${emoji[0]}&nbsp;`);
-                  // @TODO: Make sure to place the page.slug relative to the route permalink.
+                  // @FIXME: Make sure to place the page.slug relative to the route permalink.
                   html = html.replace( link, `<a class="internal-link" href="/${page.slug}">${name}</a>`);
                 } else {
                   html = html.replace( link, `<span class="ghost-link" title="Page not yet created.">${name}</span>`);

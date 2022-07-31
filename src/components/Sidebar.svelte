@@ -40,10 +40,10 @@
 			class="hidden lg:flex items-center justify-between w-full rounded-16 border px-3 py-1.5 border-neutral-300 dark:border-neutral-700 flex items-center text-14 text-neutral-600 dark:text-neutral-400 dark:bg-neutral-700/20 hover:bg-neutral-200/30 dark:hover:bg-neutral-700/50 shadow-lg shadow-white dark:shadow-neutral-800 relative z-[1]">
 			<span class="flex items-center gap-1">
 				<SearchIcon size={20} colorClass="fill-neutral-600 dark:fill-neutral-400" />
-				Quick search...
+				Search Files...
 			</span>
 			<span>
-				⌘O
+				⌘K
 			</span>
 		</button>
 		<div class="pt-4 lg:overflow-y-auto lg:max-h-[calc(100vh-3.75rem)] hide-scrollbars">

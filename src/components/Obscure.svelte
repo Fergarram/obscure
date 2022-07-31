@@ -88,7 +88,9 @@
 
 		if (
 			(keysPressed['Meta'] && keysPressed['o']) ||
-			(keysPressed['Control'] && keysPressed['o'])
+			(keysPressed['Control'] && keysPressed['o']) ||
+			(keysPressed['Meta'] && keysPressed['k']) ||
+			(keysPressed['Control'] && keysPressed['k'])
 		) {
 			if (showMobileMenu) return;
 			showSearchDialog = true;
@@ -109,11 +111,11 @@
 				if (nextEl) {
 					const url = nextEl.firstElementChild.dataset.url;
 					if (url) selectedResultItem = url;
-					const topSpacing = 12; // @TODO: get from resultsEl
+					const topSpacing = 12; // @TODO: get from resultsEl mtop and ptop
 					const pos = (nextEl.offsetTop + nextEl.offsetHeight) - topSpacing - resultsEl.scrollTop;
 					if (pos > resultsEl.offsetHeight) {
 						const diff = pos - resultsEl.offsetHeight;
-						resultsEl.scroll(0, resultsEl.scrollTop + diff + 15);
+						resultsEl.scroll(0, resultsEl.scrollTop + diff + 15); // @TODO: Figure out why "15"
 					}
 				}
 			}
@@ -128,11 +130,11 @@
 				if (previousEl) {
 					const url = previousEl.firstElementChild.dataset.url;
 					if (url) selectedResultItem = url;
-					const topSpacing = 12; // @TODO: get from resultsEl
+					const topSpacing = 12; // @TODO: get from resultsEl mtop and ptop
 					const pos = previousEl.offsetTop - topSpacing - resultsEl.scrollTop;
 					if (pos < 0) {
 						const diff = 0 - pos;
-						resultsEl.scroll(0, resultsEl.scrollTop - (diff - 5));
+						resultsEl.scroll(0, resultsEl.scrollTop - (diff - 5)); // @TODO: Figure out why "5"
 					}
 				}
 			}

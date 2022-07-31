@@ -40,17 +40,18 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 - [ ] ‼️ Fix all bugs/fixme/todos (which I won't bother to write here).
 - [x] ‼️ Finish mobile styles.
 - [x] ‼️ Implement search.
+- [ ] Show backlinks.
 - [ ] 🗳 Add DRAFT prefix support.
 - [ ] Obsidian notes (`%%`)
 	- [x] ‼️ Toggle for user to show/hide notes.
 	- [ ] Save user decision on local storage.
 	- [ ] 🗳 Have that be an option in `obscure.config.js`.
 	- [ ] 🗳 Parse notes content as markdown.
-- [ ] ‼️ List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
+- [ ] 🗳 List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
 - [ ] 🗳 General clean up, formalize project setup and make it easy to configure.
 - [ ] 🗳 Generate tag pages which list all the files using the tag.
 
-> NOTE: Know in advance that I will not implement a graph view.
+> ⚠️ NOTE: Know in advance that I will not implement a graph view.
 
 One of my personal uses for Obscure besides my personal research vault is to generate a wiki for [nuestro.voto](//fernando.works/projects/nuestro-voto). This means you can expect me to complete the roadmap above before the year 2022 ends.
 
