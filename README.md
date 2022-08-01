@@ -17,10 +17,12 @@ Currently, Obscure is still a WIP and should not be used in any serious way. I d
 ```bash
 # Download template with degit
 degit git@github.com:Fergarram/obscure.git my-vault-site
-cd my-vault-site
 
 # Create a symlink of your vault into the route folder
-ln -s /path/to/your/vault ./src/routes/default/vault
+# NOTE: For some reason if the link is created outside the current folder it doesn't work. At least on MacOS.
+cd my-vault-site/src/routes/default
+ln -s /path/to/your/vault vault
+cd ../../../
 
 # Install dependencies and run watch server on localhost:3000
 npm install
