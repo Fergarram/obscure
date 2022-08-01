@@ -367,10 +367,6 @@ const plugin = {
 							}
 						}
 
-						if (frontmatter && !frontmatter.title) {
-							frontmatter.title = filename;
-						}
-
 						const ObsidianEmbedFile = /!\[\[([^]*?)\]\]/g;
 						const embedMatch = ObsidianEmbedFile.exec(html);
 						if (embedMatch) {
@@ -420,11 +416,31 @@ const plugin = {
 							});
 						}
 
+						if (!frontmatter) frontmatter = {};
+						if (!frontmatter.title) frontmatter.title = filename;
+						if (!frontmatter.description) {
+							const generatedSummary = html
+								.replace(/<h[^>]*>(.*?)<\/h[^>]>/g, '')
+								.replace(/<[^>]+>/g, '')
+								.replace(/\&nbsp\;/g, ' ')
+								.slice(0, 140)
+								.trim();
+
+							if (generatedSummary) {
+								frontmatter.description = decode(generatedSummary, { level: 'all' }) + '...';
+							} else {
+								frontmatter.description = routeObj.description;
+							}
+
+						}
+						if (!frontmatter.author) frontmatter.author = routeObj.author;
+
 						return {
 							data: {
 								...data,
 								...addToData,
 								siteTitle: routeObj.title,
+								locale: routeObj.locale,
 								homeUrl: prefix,
 								html,
 								breadcrumbs,

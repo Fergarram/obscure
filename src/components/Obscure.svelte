@@ -1,47 +1,33 @@
 <script>
 	import { onMount } from 'svelte';
-	import { findEmoji } from '../utils.js';
-	import Fuse from 'fuse.js';
 	import TableOfContents from './TableOfContents.svelte';
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
 	import Sidebar from './Sidebar.svelte';
-	import Modal from './Modal.svelte';
 	import CommentsControl from './CommentsControl.svelte';
+	import SearchModal from './SearchModal.svelte';
 	import ArrowRightIcon from './svgs/ArrowRight.svelte';
-	import SearchIcon from './svgs/Search.svelte';
 	import HomeIcon from './svgs/Home.svelte';
 
-	export let data, shortcuts;
+	export let data, shortcuts, permalink;
 
-	const { homeUrl, frontmatter, breadcrumbs, tocTree, logo, routeFileTree, flatFileList } = data;
-	const fuse = new Fuse(flatFileList, {
-		includeScore: true,
-		includeMatches: true,
-		keys: [ 'name', 'path' ]
-	});
-	const contentHasH1 =
-		tocTree && tocTree.length > 0 && tocTree.find(i => i.depth === 1)
-		? true
-		: false;
+	const {
+		homeUrl,
+		frontmatter,
+		breadcrumbs,
+		tocTree,
+		logo,
+		routeFileTree,
+		flatFileList
+	} = data;
+
+	const contentHasH1 = tocTree && tocTree.length > 0 && tocTree.find(i => i.depth === 1);
 
 	let showMobileMenu = false;
 	let showSearchDialog = false;
 	let keysPressed = [];
-	let searchQuery = '';
-	let searchFocused = false;
-	let searchInputEl = null;
 	let lastPos = 0;
 	let mounted = false;
-	let results = [];
-	let selectedResultItem = '';
-	let resultsEl = null;
-
-	let seoTitle = frontmatter && frontmatter.title ? frontmatter.title : 'Untitled document';
-
-	// @NOTE: This code that removes the emoji is totally optional.
-	const emojiMatch = findEmoji(seoTitle);
-	if (emojiMatch) seoTitle = seoTitle.replace(emojiMatch[0], '').trim();
 
 	const lock = (mobileOnly = false) => {
 		if (document.body.style.position === 'fixed') return;
@@ -73,17 +59,6 @@
 		window.scroll(0, lastPos);
 	};
 
-	const handleModalClose = () => {
-		showSearchDialog = false;
-		searchQuery = '';
-		unlock();
-	};
-
-	const handleModalOpen = () => {
-		lock();
-		if (searchInputEl) searchInputEl.focus();
-	};
-
 	const onKeyup = (e) => {
 		keysPressed = [];
 	};
@@ -104,50 +79,6 @@
 		}
 	};
 
-	const handleInputKeydown = (e) => {
-		if (e.key === 'Enter') {
-			location.href = `${location.origin}/${selectedResultItem}`;
-		}
-
-		if (e.key === 'ArrowDown') {
-			e.preventDefault();
-			if (results.length > 0) {
-				// Focus on the element below the currently selected item
-				const el = document.getElementById(`result-${selectedResultItem}`);
-				const nextEl = el.nextElementSibling;
-				if (nextEl) {
-					const url = nextEl.firstElementChild.dataset.url;
-					if (url) selectedResultItem = url;
-					const topSpacing = 12; // @TODO: get from resultsEl mtop and ptop
-					const pos = (nextEl.offsetTop + nextEl.offsetHeight) - topSpacing - resultsEl.scrollTop;
-					if (pos > resultsEl.offsetHeight) {
-						const diff = pos - resultsEl.offsetHeight;
-						resultsEl.scroll(0, resultsEl.scrollTop + diff + 15); // @TODO: Figure out why "15"
-					}
-				}
-			}
-		}
-
-		if (e.key === 'ArrowUp') {
-			e.preventDefault();
-			if (results.length > 0) {
-				// Focus on the element above the currently selected item
-				const el = document.getElementById(`result-${selectedResultItem}`);
-				const previousEl = el.previousElementSibling;
-				if (previousEl) {
-					const url = previousEl.firstElementChild.dataset.url;
-					if (url) selectedResultItem = url;
-					const topSpacing = 12; // @TODO: get from resultsEl mtop and ptop
-					const pos = previousEl.offsetTop - topSpacing - resultsEl.scrollTop;
-					if (pos < 0) {
-						const diff = 0 - pos;
-						resultsEl.scroll(0, resultsEl.scrollTop - (diff - 5)); // @TODO: Figure out why "5"
-					}
-				}
-			}
-		}
-	};
-
 	onMount(() => {
 		mounted = true;
 		document.addEventListener('keyup', onKeyup);
@@ -158,20 +89,26 @@
 		if (showMobileMenu) lock(true);
 		else if (!showMobileMenu) unlock(true);
 	}
-
-	$: {
-		results = fuse.search(searchQuery);
-		if (results.length > 0) selectedResultItem = results[0].item.url;
-	};
 </script>
 
 <svelte:head>
-	<!-- @FIXME: Make sure all SEO requirements are met -->
-	<title>
-		{seoTitle} - {data.siteTitle}
-	</title>
-	<!-- <meta name="description" content={frontmatter.description} /> -->
-	<!-- <link href={request.permalink} rel="canonical" /> -->
+	<meta property="og:site_name" content={data.siteTitle}>
+	<meta property="og:locale" content={data.locale}>
+
+	{#if frontmatter}
+		<title>{frontmatter.title}</title>
+		<meta property="og:title" content={frontmatter.title}>
+		<meta property="twitter:title" content={frontmatter.title}>
+
+		<meta name="author" content={frontmatter.author}>
+		
+		<meta name="description" content={frontmatter.description} />
+		<meta property="og:description" content={frontmatter.description}>
+		<meta name="twitter:description" content={frontmatter.description}>
+	{/if}
+	
+	<link rel="canonical" href={permalink} />
+	<meta property="og:url" content={data.permalink}>	
 </svelte:head>
 
 <div id="obscure" class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 min-h-screen">
@@ -231,56 +168,15 @@
 						{/if}
 					</div>
 				</article>
+
+				<!-- Search Dialog -->
 				{#if showSearchDialog}
-					<Modal
-						id="file-search"
-						ariaLabel="Search documents"
-						autoPlaceModal={false}
-						wrapperClasses="p-4 focus:outline-none"
-						modalClasses="max-w-40em mx-auto dark:bg-neutral-800 bg-neutral-200 rounded-8 top-2 md:top-1/4"
-						on:modal-close={handleModalClose}
-						on:modal-open={handleModalOpen}>
-						<div class="flex items-center gap-2 max-w-full w-full">
-							<SearchIcon />
-							<label for="file-search-input" class="block relative max-w-full w-full">
-								<span class="absolute pointer-events-none opacity-60" class:hidden={searchQuery}>
-									Search files in vault...
-								</span>
-								<input
-									type="text"
-									id="file-search-input"
-									bind:this={searchInputEl}
-									bind:value={searchQuery}
-									class="bg-transparent focus:outline-none max-w-full w-full"
-									on:keydown={handleInputKeydown}
-									on:focus={() => searchFocused = true}
-									on:blur={() => searchFocused = false}
-								/>
-							</label>
-						</div>
-						{#if results.length > 0}
-							<ul
-								bind:this={resultsEl}
-								aria-label="search results"
-								class="relative max-h-[calc(100vh_-_7.5rem)] md:max-h-[40vh] overflow-auto h-fit mt-3 pt-3 border-t border-neutral-300 dark:border-neutral-600 w-full">
-								{#each results as result}
-									<li class="text-16 w-full" id="result-{result.item.url}">
-										<a
-											data-url={result.item.url}
-											href="/{result.item.url}"
-											on:mouseover={() => selectedResultItem = result.item.url}
-											on:focus={() => selectedResultItem = result.item.url}
-											class="grid gap-1 w-full rounded-8 p-2 {selectedResultItem === result.item.url ? 'dark:bg-neutral-700/50 bg-neutral-100' : ''}">
-											{result.item.name}
-												<p class="text-12 opacity-60">
-												{result.item.path}
-											</p>
-										</a>
-									</li>
-								{/each}
-							</ul>
-						{/if}
-					</Modal>
+					<SearchModal
+						{flatFileList}
+						bind:showSearchDialog
+						on:modal-open={() => lock()}
+						on:modal-close={() => unlock()}
+					/>
 				{/if}
 			</main>
 		</div>

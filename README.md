@@ -38,7 +38,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] 🗳 Video files: mp4, webm, ogv, mov, mkv;
 	- [ ] 🗳 PDF files: pdf.
 		- [ ] 🗳 Page index support
-- [ ] ‼️ Fix all critical bugs and @FIXME comments.
+- [x] ‼️ Fix all critical bugs and @FIXME comments.
 - [x] ‼️ Finish mobile styles.
 - [x] ‼️ Implement search.
 - [ ] Show backlinks.
@@ -55,6 +55,12 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 > ⚠️ Know in advance that I will NOT implement a graph view.
 
 One of my personal uses for Obscure besides my personal research vault is to generate a wiki for [nuestro.voto](//fernando.works/projects/nuestro-voto). This means you can expect me to complete the roadmap above before the year 2022 ends.
+
+I also intend this repository to be a template rather than a library. The reason behind this is that I like having full control of how it works for each site I'll use this for. Although, since I do plan to make this as open and friendly as it makes sense, I'll need to have an approach for upgradability. Here are some ideas for users who don't modify the actual UI components:
+
+- Separate colors and theming into a config file
+- Create a script that automatically pulls the latests components into your repository without overriding config files.
+- Create a base set of components from which developers can create customized ones. I'll have to do some POCs for this.
 
 
 ## Further goals

@@ -5,7 +5,7 @@
 	"main": "./src/build.js",
 	"scripts": {
 		"start": "npm run dev",
-		"build": "node ./src/cleanPublic.js && npm run build:rollup && npm run build:html",
+		"build": "node ./src/cleanPublic.js && npm run tailwind && npm run build:rollup && npm run build:html",
 		"build:rollup": "rollup -c",
 		"build:html": "node ./src/build.js",
 		"dev": "concurrently \"npm run esbuild\" \"npm run tailwind:dev\"",
@@ -43,7 +43,6 @@
 		"remark-gfm": "^1.0.0",
 		"remark-html": "13.0.1",
 		"remark-slug": "^6.0.0",
-		"sanitize-html": "^2.7.1",
 		"shiki": "^0.9.6",
 		"sirv": "^1.0.11",
 		"svelte": "^3.38.3",

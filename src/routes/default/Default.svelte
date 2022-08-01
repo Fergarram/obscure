@@ -25,6 +25,8 @@
 			ext: true
 		},
 	];
+
+	const permalink = request.permalink;
 </script>
 
-<Obscure hydrate-client={{ data, shortcuts }} />
+<Obscure hydrate-client={{ data, shortcuts, permalink }} />
