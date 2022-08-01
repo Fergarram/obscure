@@ -12,6 +12,21 @@ Here's a list of essential features for me:
 
 Currently, Obscure is still a WIP and should not be used in any serious way. I do plan to make this as accesible as possible, even for non-technical users. So here is a roadmap of how that may look:
 
+## Installation
+
+```bash
+# Download template with degit
+degit git@github.com:Fergarram/obscure.git my-vault-site
+cd my-vault-site
+
+# Create a symlink of your vault into the route folder
+ln -s /path/to/your/vault ./src/routes/default/vault
+
+# Install dependencies and run watch server on localhost:3000
+npm install
+npm run dev
+```
+
 ## Roadmap to V1
 
 If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all the must features or all the features that the MVP needs which will allow me to push my research vault to obscurity.wiki; and I'm using "🗳" for all the needed features for [nuestro.voto](//fernando.works/projects/nuestro-voto).
