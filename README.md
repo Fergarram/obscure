@@ -1,5 +1,7 @@
 # Obscure - A static site generator for Obsidian vaults based on Elder.js 
 
+[Live Demo](https://obscurity.wiki)
+
 I needed a way to publish my exsiting Obsidian research vault so that new readers could explore it. I considered the existing [Obsidian publishing service](https://obsidian.md/publish) but I don't like how limited in terms of customizability it is.
 
 Here's a list of essential features for me:
@@ -9,8 +11,6 @@ Here's a list of essential features for me:
 - No client-side routing
 - Highly customizable
 - Custom shortcodes
-
-Currently, Obscure is still a WIP and should not be used in any serious way. I do plan to make this as accesible as possible, even for non-technical users. So here is a roadmap of how that may look:
 
 ## Installation
 
@@ -28,6 +28,8 @@ cd ../../../
 npm install
 npm run dev
 ```
+
+Currently, Obscure is still a WIP and should not be used in any serious way yet. I do plan to make this as accesible as possible, even for non-technical users. So here is a roadmap of how that may look:
 
 ## Roadmap to V1
 
@@ -58,7 +60,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 - [x] ‼️ Fix all critical bugs and @FIXME comments.
 - [x] ‼️ Finish mobile styles.
 - [x] ‼️ Implement search.
-- [ ] Show backlinks.
+- [ ] 🗳 Show backlinks.
 - [ ] 🗳 Add DRAFT prefix support.
 - [ ] Obsidian notes (`%%`)
 	- [x] ‼️ Toggle for user to show/hide notes.
