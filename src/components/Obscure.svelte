@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { findEmoji } from '../utils.js';
 	import Fuse from 'fuse.js';
 	import TableOfContents from './TableOfContents.svelte';
 	import Header from './Header.svelte';
@@ -13,7 +14,7 @@
 
 	export let data, shortcuts;
 
-	const { frontmatter, breadcrumbs, tocTree, logo, routeFileTree, flatFileList } = data;
+	const { homeUrl, frontmatter, breadcrumbs, tocTree, logo, routeFileTree, flatFileList } = data;
 	const fuse = new Fuse(flatFileList, {
 		includeScore: true,
 		includeMatches: true,
@@ -35,6 +36,12 @@
 	let results = [];
 	let selectedResultItem = '';
 	let resultsEl = null;
+
+	let seoTitle = frontmatter && frontmatter.title ? frontmatter.title : 'Untitled document';
+
+	// @NOTE: This code that removes the emoji is totally optional.
+	const emojiMatch = findEmoji(seoTitle);
+	if (emojiMatch) seoTitle = seoTitle.replace(emojiMatch[0], '').trim();
 
 	const lock = (mobileOnly = false) => {
 		if (document.body.style.position === 'fixed') return;
@@ -155,20 +162,22 @@
 	$: {
 		results = fuse.search(searchQuery);
 		if (results.length > 0) selectedResultItem = results[0].item.url;
-		// console.log(results);
 	};
 </script>
 
 <svelte:head>
-	<title>{frontmatter && frontmatter.title ? frontmatter.title : 'NO TITLE!'}</title>
-	<meta name="description" content="test" />
-	<link href="/" rel="canonical" />
+	<!-- @FIXME: Make sure all SEO requirements are met -->
+	<title>
+		{seoTitle} - {data.siteTitle}
+	</title>
+	<!-- <meta name="description" content={frontmatter.description} /> -->
+	<!-- <link href={request.permalink} rel="canonical" /> -->
 </svelte:head>
 
 <div id="obscure" class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 min-h-screen">
 	<div class="p-4 pt-0 sm:p-8 sm:pt-4 md:p-10 md:pt-6">
 		<!-- Header -->
-		<Header {shortcuts} bind:showMobileMenu bind:showSearchDialog />
+		<Header {homeUrl} {shortcuts} bind:showMobileMenu bind:showSearchDialog />
 
 		<div class="lg:grid lg:grid-cols-auto-1fr">
 
@@ -182,7 +191,7 @@
 				{#if breadcrumbs && breadcrumbs.length > 0}
 					<ul class="overflow-auto hide-scrollbars flex gap-2 text-14 mb-6 lg:mb-8">
 						<li class="opacity-80 dark:opacity-60 hover:opacity-100">
-							<a href="/">
+							<a href={homeUrl}>
 								<HomeIcon size={20}/>
 							</a>
 						</li>
@@ -260,6 +269,7 @@
 											data-url={result.item.url}
 											href="/{result.item.url}"
 											on:mouseover={() => selectedResultItem = result.item.url}
+											on:focus={() => selectedResultItem = result.item.url}
 											class="grid gap-1 w-full rounded-8 p-2 {selectedResultItem === result.item.url ? 'dark:bg-neutral-700/50 bg-neutral-100' : ''}">
 											{result.item.name}
 												<p class="text-12 opacity-60">

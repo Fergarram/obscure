@@ -4,140 +4,147 @@ const { decode, encode } = require('html-entities');
 const { slugify, findEmoji } = require('./utils');
 
 function compileImage(route, md, openPattern = '{{', closePattern = '}}') {
-  const result = [];
+	const result = [];
 
-  const ObsidianEmbedFile = /!\[\[([^]*?)\]\]/g;
-  const embedMatch = ObsidianEmbedFile.exec(md);
-  if (embedMatch) {
-    const [ embedCode, embedFilename ] = embedMatch;
-    console.log(embedCode, embedFilename);
+	const ObsidianEmbedFile = /!\[\[([^]*?)\]\]/g;
+	const embedMatch = ObsidianEmbedFile.exec(md);
+	if (embedMatch) {
+		const [ embedCode, embedFilename ] = embedMatch;
+		console.log(embedCode, embedFilename);
 
-    if (
-      embedFilename.includes('.png') ||
-      embedFilename.includes('.jpg') ||
-      embedFilename.includes('.jpeg') ||
-      embedFilename.includes('.gif') ||
-      embedFilename.includes('.bmp') ||
-      embedFilename.includes('.svg')
-    ) {
-      let imageName = embedFilename
-        .replace('.png', '').replace('.jpg', '').replace('.jpeg', '')
-        .replace('.gif', '').replace('.bmp', '').replace('.svg', '');
-      console.log(imageName);
-      const imageUrl = slugify(embedFilename).replace(/^-/g, '');
-      md = md.replace(embedCode, `<div class="md-img">${openPattern}picture alt="${imageName}" src="/images/${route}/${embedFilename}" /${closePattern}</div>`);
-    }
-  }
-  
-  let match;
-  const MDImgRegex = /!\[([A-Za-z-_ \d]*)\]\(([^)]*)\)/gm;
+		if (
+			embedFilename.includes('.png') ||
+			embedFilename.includes('.jpg') ||
+			embedFilename.includes('.jpeg') ||
+			embedFilename.includes('.gif') ||
+			embedFilename.includes('.bmp') ||
+			embedFilename.includes('.svg')
+		) {
+			let imageName = embedFilename
+				.replace('.png', '').replace('.jpg', '').replace('.jpeg', '')
+				.replace('.gif', '').replace('.bmp', '').replace('.svg', '');
+			console.log(imageName);
+			const imageUrl = slugify(embedFilename).replace(/^-/g, '');
+			md = md.replace(embedCode, `<div class="md-img">${openPattern}picture alt="${imageName}" src="/images/${route.name}/${embedFilename}" /${closePattern}</div>`);
+		}
+	}
+	
+	let match;
+	const MDImgRegex = /!\[([A-Za-z-_ \d]*)\]\(([^)]*)\)/gm;
 
-  let lastIndex = 0;
-  while ((match = MDImgRegex.exec(md)) !== null) {
-    const [, alt, src] = match;
-    result.push(
-      md.slice(lastIndex, match.index),
-      `<div class="md-img">${openPattern}picture alt="${alt}" src="${src}" /${closePattern}</div>`,
-    );
-    lastIndex = MDImgRegex.lastIndex;
-  }
+	let lastIndex = 0;
+	while ((match = MDImgRegex.exec(md)) !== null) {
+		const [, alt, src] = match;
+		result.push(
+			md.slice(lastIndex, match.index),
+			`<div class="md-img">${openPattern}picture alt="${alt}" src="${src}" /${closePattern}</div>`,
+		);
+		lastIndex = MDImgRegex.lastIndex;
+	}
 
-  result.push(md.slice(lastIndex));
-  return result.join('');
+	result.push(md.slice(lastIndex));
+	return result.join('');
 }
 
 async function createMarkdownStore({
-  pluginConfig,
-  root,
-  route,
-  file,
-  slug,
-  shortcodes: { openPattern, closePattern } = {},
-  parser,
-  useImagePlugin = false,
-  preserveFolderStructure = false,
+	pluginConfig,
+	root,
+	route,
+	file,
+	slug,
+	shortcodes: { openPattern, closePattern } = {},
+	parser,
+	useImagePlugin = false,
+	preserveFolderStructure = false,
 }) {
-  const ret = {
-    slug: null,
-    filename: null,
-    frontmatter: null,
-    html: null,
-    data: null,
-    compileHtml,
-  };
+	const ret = {
+		slug: null,
+		filename: null,
+		frontmatter: null,
+		html: null,
+		data: null,
+		compileHtml,
+	};
 
-  let source = fs.readFileSync(file, 'utf-8');
-  let obsidianComments = source.match(/\%\%([^]*?)\%\%/g);
-  if (obsidianComments && obsidianComments.length > 0) {            
-    // console.log(obsidianComments.length);
-    obsidianComments.forEach(item => {
-      source = source.replace(item, `<div class="md-comment">${item.replace(/\%\%/g, '').replace(/\n/g, '<br>')}</div>`);
-    });
-  }
-  const matches = source.match(/\s*^---[^\S\r\n]*\r?\n[\s\S]*?^---[^\S\r\n]*\r?(\n|$)/my);
-  const header = matches && matches[0];
-  if (!header) {
-    ret.frontmatter = {};
-  } else {
-    const result = await parser.process(header);
-    ret.frontmatter = result.data.frontmatter || {};
-  }
-  const { fileSlug, filename, breadcrumbs } = getSlug();
-  ret.slug = fileSlug;
-  ret.filename = filename;
-  return ret;
+	let source = fs.readFileSync(file, 'utf-8');
+	let obsidianComments = source.match(/\%\%([^]*?)\%\%/g);
+	if (obsidianComments && obsidianComments.length > 0) {            
+		// console.log(obsidianComments.length);
+		obsidianComments.forEach(item => {
+			source = source.replace(item, `<div class="md-comment">${item.replace(/\%\%/g, '').replace(/\n/g, '<br>')}</div>`);
+		});
+	}
+	const matches = source.match(/\s*^---[^\S\r\n]*\r?\n[\s\S]*?^---[^\S\r\n]*\r?(\n|$)/my);
+	const header = matches && matches[0];
+	if (!header) {
+		ret.frontmatter = {};
+	} else {
+		const result = await parser.process(header);
+		ret.frontmatter = result.data.frontmatter || {};
+	}
+	const { fileSlug, filename, breadcrumbs } = getSlug();
+	ret.slug = fileSlug;
+	ret.filename = filename;
+	return ret;
 
-  function getSlug() {
-    let output = {};
-    const relativePath = path.relative(root, file).replace(/\\/g, '/');
+	function getSlug() {
+		let output = {};
+		const relativePath = path.relative(root, file).replace(/\\/g, '/');
 
-    let parts = relativePath.replace(`${pluginConfig.vault}/`, '').replace('.md', '').split('/');
-    parts = parts.map(s => slugify(s).replace(/^-/g, ''));
+		let parts = relativePath.replace('vault/', '').replace('.md', '').split('/');
+		parts = parts.map(s => slugify(s).replace(/^-/g, ''));
 
+		let folderIndex = route.folderIndex || 'index';
 
-    // @FIXME: Check in config what's the convention for index files
-    // Check if last two items are the same (ignoring the emoji)
-    let parent = parts[parts.length - 2];
-    let name = parts[parts.length - 1];
+		if (folderIndex === 'same-as-parent') {
+			let parent = parts[parts.length - 2];
+			let name = parts[parts.length - 1];
 
-    if (parent === name) {
-      parts.splice(parts.length - 2, 1);
-    }
+			if (parent === name) {
+				parts.splice(parts.length - 2, 1);
+			}
 
-    const finalSlug = parts.join('/');
-    output.fileSlug = finalSlug === pluginConfig.home ? '/' : finalSlug;
+		} else {
+			let name = parts[parts.length - 1];
+			if (name === folderIndex) {
+				parts.pop();
+			}
+		}
 
-    if (slug && typeof slug === 'function') {
-      const result = pluginConfig.slugFormatter(relativePath, ret.frontmatter);
-      if (typeof result === 'string') {
-        output.fileSlug = result;
-      }
-    }
+		const finalSlug = parts.join('/');
+		output.fileSlug = finalSlug === route.home ? '/' : finalSlug;
 
-    if (ret.frontmatter.slug && !output.fileSlug) {
-      output.fileSlug = ret.frontmatter.slug;
-    }
+		if (slug && typeof slug === 'function') {
+			const result = pluginConfig.slugFormatter(relativePath, ret.frontmatter);
+			if (typeof result === 'string') {
+				output.fileSlug = result;
+			}
+		}
 
-    const fileName = preserveFolderStructure ? relativePath : file.split('/').pop();
-    output.filename = fileName.replace('.md', '');
-    if (!output.fileSlug) output.fileSlug = fileName.replace('.md', '').replace(/ /gim, '-');
+		if (ret.frontmatter.slug && !output.fileSlug) {
+			output.fileSlug = ret.frontmatter.slug;
+		}
 
-    return output;
-  }
+		const fileName = preserveFolderStructure ? relativePath : file.split('/').pop();
+		output.filename = fileName.replace('.md', '');
+		if (!output.fileSlug) output.fileSlug = fileName.replace('.md', '').replace(/ /gim, '-');
 
-  async function compileHtml() {
-    if (ret.html != null) return;
+		return output;
+	}
 
-    if (useImagePlugin) {
-      source = compileImage(route, source, openPattern, closePattern);
-    }
+	async function compileHtml() {
+		if (ret.html != null) return;
 
-    const result = await parser.process(source);
-    source = null;
-    ret.html = result.contents;
-    ret.frontmatter = result.data.frontmatter || {};
-    delete result.data.frontmatter;
-    ret.data = result.data;
-  }
+		if (useImagePlugin) {
+			source = compileImage(route, source, openPattern, closePattern);
+		}
+
+		const result = await parser.process(source);
+		source = null;
+		ret.html = result.contents;
+		ret.frontmatter = result.data.frontmatter || {};
+		delete result.data.frontmatter;
+		ret.data = result.data;
+	}
 }
 module.exports = createMarkdownStore;

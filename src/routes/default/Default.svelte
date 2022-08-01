@@ -1,7 +1,7 @@
 <script>
 	import Obscure from '../../components/Obscure.svelte';
 
-	export let data;
+	export let data, request;
 
 	const shortcuts = [
 		{

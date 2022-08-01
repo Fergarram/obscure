@@ -32,6 +32,7 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 	- [ ] Markdown files: md;
 	- [ ] Image files: png, jpg, jpeg, gif, bmp, svg;
 		- [x] ‼️ Render img tag
+		- [ ] 🗳 Render optional captions
 		- [ ] 🗳 Use [Elder.js Images Plugin](https://github.com/Elderjs/plugins/tree/master/packages/images) to process embedded images.
 	- [ ] Audio files: mp3, webm, wav, m4a, ogg, 3gp, flac;
 	- [ ] 🗳 Video files: mp4, webm, ogv, mov, mkv;

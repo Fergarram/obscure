@@ -3,14 +3,14 @@
 	import MenuIcon from './svgs/Menu.svelte';
 	import SearchIcon from './svgs/Search.svelte';
 
-	export let shortcuts, showMobileMenu, showSearchDialog;
+	export let shortcuts, showMobileMenu, showSearchDialog, homeUrl;
 </script>
 
 <header class="sticky top-0 lg:static z-header dark:bg-neutral-800 bg-white pt-4 border-b border-neutral-200 dark:border-neutral-700 pb-4 flex items-center justify-between">
 	<button class="lg:hidden" on:click={() => showMobileMenu = !showMobileMenu}>
 		<MenuIcon />
 	</button>
-	<a href="/" class="font-semibold text-20 tracking-title block leading-100">
+	<a href={homeUrl} class="font-semibold text-20 tracking-title block leading-100">
 		Obscurity Wiki
 	</a>
 	<nav class="hidden lg:flex">
