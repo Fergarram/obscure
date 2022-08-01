@@ -107,7 +107,7 @@
 		<meta name="twitter:description" content={frontmatter.description}>
 	{/if}
 	
-	<link rel="canonical" href={permalink} />
+	<link rel="canonical" href="{permalink}" />
 	<meta property="og:url" content={data.permalink}>	
 </svelte:head>
 

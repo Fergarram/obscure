@@ -1,7 +1,7 @@
 <script>
 	import Obscure from '../../components/Obscure.svelte';
 
-	export let data, request;
+	export let data, request, settings;
 
 	const shortcuts = [
 		{
@@ -26,7 +26,7 @@
 		},
 	];
 
-	const permalink = request.permalink;
+	const permalink = settings.origin + request.permalink;
 </script>
 
 <Obscure hydrate-client={{ data, shortcuts, permalink }} />

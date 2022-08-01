@@ -7,7 +7,10 @@
 </script>
 
 <header class="sticky top-0 lg:static z-header dark:bg-neutral-800 bg-white pt-4 border-b border-neutral-200 dark:border-neutral-700 pb-4 flex items-center justify-between">
-	<button class="lg:hidden" on:click={() => showMobileMenu = !showMobileMenu}>
+	<button
+		class="lg:hidden"
+		on:click={() => showMobileMenu = !showMobileMenu}
+		aria-label="Toggle sidebar menu">
 		<MenuIcon />
 	</button>
 	<a href={homeUrl} class="font-semibold text-20 tracking-title block leading-100">
@@ -27,7 +30,10 @@
 			{/each}
 		</ul>
 	</nav>
-	<button class="lg:hidden" on:click={() => showSearchDialog = !showSearchDialog}>
+	<button
+		class="lg:hidden"
+		on:click={() => showSearchDialog = !showSearchDialog}
+		aria-label="Search vault files">
 		<SearchIcon />
 	</button>
 </header>
