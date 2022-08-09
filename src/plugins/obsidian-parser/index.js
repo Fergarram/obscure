@@ -419,8 +419,16 @@ const plugin = {
 						if (!frontmatter) frontmatter = {};
 						if (!frontmatter.title) frontmatter.title = filename;
 						if (!frontmatter.description) {
-							const generatedSummary = html
+							const emoji = findEmoji(html);
+							let generatedSummary = '';
+							
+							if (emoji && emoji[0]) {
+								generatedSummary = html.replace(emoji[0], '');
+							}
+							
+							generatedSummary = generatedSummary
 								.replace(/<h[^>]*>(.*?)<\/h[^>]>/g, '')
+								.replace(/<div\ class\=\"md-comment\">(.*?)<\/div>/g, '')
 								.replace(/<[^>]+>/g, '')
 								.replace(/\&nbsp\;/g, ' ')
 								.slice(0, 140)
