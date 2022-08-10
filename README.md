@@ -87,3 +87,5 @@ I also intend this repository to be a template rather than a library. The reason
 As I mentioned, I intend to make this usable by programming-impaired users. To do so, I want to create either an Obsidian plugin or a "native" app that allows these users to pick a vault, customize their site settings, and have the app generate either a git repository that can be used to push this to netlify or any static web hosting service or something similar.
 
 Here's the [Figma file](https://www.figma.com/file/S1H33ONKWWWsGL2n6zFTUc/Documentation-Template?node-id=0%3A1) where it all started.
+
+It would also be cool to implement a sort of dashboard that allows people to suscribe to changes to a specific query. For exmaple, suscribe to all changes in notes that have a `📎` and are within 'x' directory. This would generate a list of links widget for the dashboard.
