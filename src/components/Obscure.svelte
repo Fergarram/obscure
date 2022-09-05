@@ -113,6 +113,8 @@
 
 <div id="obscure" class="dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 min-h-screen">
 	<div class="p-4 pt-0 sm:p-8 sm:pt-4 md:p-10 md:pt-6">
+		<!-- @TODO: Add "skip to content" button -->
+
 		<!-- Header -->
 		<Header {homeUrl} {shortcuts} bind:showMobileMenu bind:showSearchDialog />
 

@@ -116,13 +116,13 @@
 
 .article-content > h1:not(.not-content),
 .article-content__h1 {
-  @apply font-sans text-neutral-800 dark:text-neutral-100 font-semibold leading-115 tracking-title;
-  font-size: 1.75em;
+  @apply font-sans text-neutral-800 dark:text-neutral-100 font-semibold leading-125 tracking-title;
+  font-size: 1.85em;
 }
 
 .article-content > h2:not(.not-content) {
   @apply font-sans heading-prefix-2 mt-5 font-medium tracking-subtitle text-neutral-800 dark:text-neutral-200 leading-115;
-  font-size: 1.85em;
+  font-size: 1.75em;
 }
 
 .article-content > h3:not(.not-content) {
@@ -186,12 +186,12 @@
 }
 
 .article-content a:not(.not-content).internal-link {
-  @apply text-blue-700 dark:text-blue-300 hover:bg-neutral-200 dark:hover:bg-neutral-600/50 bg-neutral-100 dark:bg-neutral-700/20 px-1.5 py-0.5 rounded-4 border border-neutral-200 dark:border-neutral-600;
+  @apply text-14 text-blue-700 dark:text-blue-300 hover:bg-neutral-200 dark:hover:bg-neutral-600/50 bg-neutral-100 dark:bg-neutral-700/20 px-1.5 py-1 rounded-4 border border-neutral-200 dark:border-neutral-600;
   line-height: 2;
 }
 
 .article-content span:not(.not-content).ghost-link {
-  @apply bg-neutral-100 dark:bg-neutral-700/20 px-1.5 py-0.5 rounded-4 border border-neutral-200 dark:border-neutral-600 cursor-not-allowed;
+  @apply text-14 bg-neutral-100 dark:bg-neutral-700/20 px-1.5 py-1 rounded-4 border border-neutral-200 dark:border-neutral-600 cursor-not-allowed;
   line-height: 2;
 }
 

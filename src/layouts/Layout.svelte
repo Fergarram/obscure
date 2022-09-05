@@ -19,9 +19,9 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	<link rel="stylesheet" type="text/css" href="/styles.css">
 	<!-- @IMPROVE: Use a more performant solution for fonts. -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;500;600;700&display=swap" rel="stylesheet">
+	<!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+	<!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+	<!-- <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;500;600;700&display=swap" rel="stylesheet"> -->
 </svelte:head>
 
 {@html templateHtml}

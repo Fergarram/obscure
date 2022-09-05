@@ -12,7 +12,7 @@
 </script>
 
 <section
-	class="bg-neutral-100 dark:bg-neutral-700/40 px-3 py-2 rounded-4 w-full sm:flex gap-6 items-center justify-between">
+	class="bg-neutral-100 text-14 font-sans dark:bg-neutral-700/40 px-3 py-2 rounded-4 w-full sm:flex gap-6 items-center justify-between">
 	<p class="not-content mb-2 sm:mb-0">
 		{commentsShown ? 'This document is currently showing hidden notes' : 'This document has hidden notes'}
 	</p>

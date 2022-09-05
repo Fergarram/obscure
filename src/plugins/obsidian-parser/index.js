@@ -269,8 +269,8 @@ const plugin = {
 					glob.sync(path.resolve(settings.rootDir, `./${mediaPath}/**/*`)).forEach((file) => {
 						const parsed = path.parse(file);
 						if (parsed.ext && parsed.ext.length > 0) {
-							let relativeToAssetsFolder = path.relative(path.join(settings.rootDir, `./${mediaPath}`), file);
-							relativeToAssetsFolder = slugify(relativeToAssetsFolder).replace(/^-/g, '')
+							let relativeToAssetsFolder = path.relative(path.join(settings.rootDir, `./${mediaPath}`), file.replace(parsed.ext, ''));
+							relativeToAssetsFolder = slugify(relativeToAssetsFolder).replace(/^-/g, '') + parsed.ext;
 							const outputPath = path.resolve(`${settings.distDir}/images/${route.name}`, relativeToAssetsFolder);
 							fs.ensureDirSync(path.parse(outputPath).dir);
 							fs.outputFileSync(outputPath, fs.readFileSync(file));
@@ -379,11 +379,16 @@ const plugin = {
 								embedFilename.includes('.bmp') ||
 								embedFilename.includes('.svg')
 							) {
+								let ext = embedFilename.split('.');
+								ext = ext[ext.length - 1]
 								let imageName = embedFilename
 									.replace('.png', '').replace('.jpg', '').replace('.jpeg', '')
 									.replace('.gif', '').replace('.bmp', '').replace('.svg', '');
-								const imageUrl = slugify(embedFilename).replace(/^-/g, '');
-								html = html.replace(embedCode, `<img alt="${imageName}" src="/images/${request.route}/${imageUrl}" />`);
+								const imageUrl = slugify(imageName).replace(/^-/g, '');
+								html = html.replace(
+									embedCode,
+									`<img alt="${imageName}" src="/images/${request.route}/${imageUrl}.${ext}" />`
+								);
 							}
 						}
 
