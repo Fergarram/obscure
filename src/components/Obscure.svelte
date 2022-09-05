@@ -66,7 +66,10 @@
 	const onKeydown = (e) => {
 		keysPressed[e.key] = true;
 
-		if (keysPressed['Escape']) showMobileMenu = false;
+		if (keysPressed['Escape']) {
+			e.preventDefault();
+			showMobileMenu = false;
+		}
 
 		if (
 			(keysPressed['Meta'] && keysPressed['o']) ||
@@ -74,6 +77,7 @@
 			(keysPressed['Meta'] && keysPressed['k']) ||
 			(keysPressed['Control'] && keysPressed['k'])
 		) {
+			e.preventDefault();
 			if (showMobileMenu) return;
 			showSearchDialog = true;
 		}
