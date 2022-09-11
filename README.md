@@ -70,6 +70,10 @@ If you don't see a feature you'd expect from Obsidian it means I already impleme
 - [ ] 🗳 List generator shortcodes, render lists based on a query string, similar to the search bar in Obsidian.
 - [ ] 🗳 General clean up, formalize project setup and make it easy to configure.
 - [ ] 🗳 Generate tag pages which list all the files using the tag.
+- [ ] ‼️ Add schema for breadcrumbs
+- [ ] Highlight current file and collapse other folders to keep a nice view
+	- [ ] Add an option in config to see how to deal with the sidebar auto-collapsing
+- [ ] Use the search palette to suggest reading paths or related files - experiment first.
 
 > ⚠️ Know in advance that I will NOT implement a graph view.
 
