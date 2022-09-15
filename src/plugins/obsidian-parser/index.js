@@ -368,8 +368,8 @@ const plugin = {
 						}
 
 						const ObsidianEmbedFile = /!\[\[([^]*?)\]\]/g;
-						const embedMatch = ObsidianEmbedFile.exec(html);
-						if (embedMatch) {
+						let embedMatch;
+						while ((embedMatch = ObsidianEmbedFile.exec(html)) !== null) {
 							const [ embedCode, embedFilename ] = embedMatch;
 							if (
 								embedFilename.includes('.png') ||
@@ -385,8 +385,10 @@ const plugin = {
 									.replace('.png', '').replace('.jpg', '').replace('.jpeg', '')
 									.replace('.gif', '').replace('.bmp', '').replace('.svg', '');
 								const imageUrl = slugify(imageName).replace(/^-/g, '');
+								const regSafeEmbedCode = embedCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+								const replacer = new RegExp(regSafeEmbedCode, 'g');
 								html = html.replace(
-									embedCode,
+									replacer,
 									`<img alt="${imageName}" src="/images/${request.route}/${imageUrl}.${ext}" />`
 								);
 							}
