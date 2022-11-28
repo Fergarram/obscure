@@ -3,7 +3,7 @@ module.exports = [
 		shortcode: 'mdComment',
 		run: async ({ content, props }) => {
 			return {
-				html: `<div class="md-comment">${content}</div>`,
+				html: `<pre class="md-comment">${content}</pre>`,
 				css: '',
 				js: '',
 				head: '',

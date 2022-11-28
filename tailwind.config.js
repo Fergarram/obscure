@@ -10,6 +10,7 @@ module.exports = {
 		fontFamily: {
 			'content': [ '-apple-system', 'Inter', 'Roboto', 'Helvetica', 'Sans-Serif' ],
 			'sans': [ '-apple-system', 'Inter', 'Roboto', 'Helvetica', 'Sans-Serif' ],
+			'mono': [ 'monospace' ],
 		},
 		fontSize: {
 			'paragraph': '1rem',

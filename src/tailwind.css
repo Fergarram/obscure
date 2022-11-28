@@ -102,7 +102,9 @@
   }
 
   .md-comment {
-    @apply hidden bg-amber-100 dark:bg-yellow-700/20 px-2 py-1 rounded-4 border border-t-8 pt-2 border-amber-200 dark:border-yellow-900 w-full overflow-scroll;
+    @apply hidden whitespace-pre font-mono bg-amber-100 dark:bg-yellow-700/20 px-2 py-1 rounded-4 border border-t-8 pt-2 border-amber-200 dark:border-yellow-900 w-full overflow-scroll;
+    font-size: 0.85em;
+    tab-size: 4;
   }
 }
 
