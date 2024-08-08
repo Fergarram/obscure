@@ -29,11 +29,9 @@ npm install
 npm run dev
 ```
 
-Currently, Obscure is still a WIP and should not be used in any serious way yet. I do plan to make this as accesible as possible, even for non-technical users. So here is a roadmap of how that may look:
-
 ## Roadmap to V1
 
-If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all the must features or all the features that the MVP needs which will allow me to push my research vault to obscurity.wiki; and I'm using "🗳" for all the needed features for [nuestro.voto](//fernando.works/projects/nuestro-voto).
+If you don't see a feature you'd expect from Obsidian it means I already implemented it or I will not do it. Also, I marked with a "‼️" all the must features or all the features that the MVP needs which will allow me to push my research vault to obscurity.wiki; ~~and I'm using "🗳" for all the needed features for [nuestro.voto](//fernando.works/projects/nuestro-voto).~~
 
 - [ ] Cover most of [Obsidian MD specs](https://help.obsidian.md/How+to/Format+your+notes).
 	- [x] ‼️ Strike through with `~~x~~` (fixed with [remark-gfm](https://github.com/remarkjs/remark-gfm))
