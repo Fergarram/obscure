@@ -28,3 +28,7 @@ cd ../../../
 npm install
 npm run dev
 ```
+
+## TODO 2025
+
+- [ ] Use [Swan](https://github.com/Fergarram/swan) to implement v2
